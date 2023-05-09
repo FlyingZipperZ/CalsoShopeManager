@@ -62,7 +62,7 @@ const AddSalesPeople = ({ navigation, salesCtx }) => {
     setIsSubmitting(true);
     try {
       const id = await storeSales(saleData);
-      salesCtx.addSale({ ...saleData, id: id });
+      salesCtx.addSales({ ...saleData, id: id });
       navigation.goBack();
     } catch (error) {
       setError("Could not save Data try again later");

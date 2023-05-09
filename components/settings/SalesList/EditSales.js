@@ -19,7 +19,7 @@ const EditSales = ({ route }) => {
   async function deleteHandler() {
     try {
       await deleteSales(salesId);
-      tasksCtx.deleteSales(salesId);
+      salesCtx.deleteSales(salesId);
     } catch (error) {
       setError("Cannot delete try again later!");
     }

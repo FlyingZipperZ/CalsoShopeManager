@@ -2,10 +2,10 @@ import { createContext, useReducer } from "react";
 
 export const SalesContext = createContext({
   sales: [],
-  addSale: ({ name, number }) => {},
+  addSales: ({ name, number }) => {},
   setSale: (sales) => {},
-  deleteSale: (id) => {},
-  updateSale: (id, { name, number }) => {},
+  deleteSales: (id) => {},
+  updateSales: (id, { name, number }) => {},
 });
 
 function salesReducer(state, action) {
@@ -33,7 +33,7 @@ function salesReducer(state, action) {
 function SaleContextProvider({ children }) {
   const [saleState, dispatch] = useReducer(salesReducer, []);
 
-  function addSale(saleData) {
+  function addSales(saleData) {
     dispatch({ type: "ADD", payload: saleData });
   }
 
@@ -41,20 +41,20 @@ function SaleContextProvider({ children }) {
     dispatch({ type: "SET", payload: sale });
   }
 
-  function deleteSale(id) {
+  function deleteSales(id) {
     dispatch({ type: "DELETE", payload: id });
   }
 
-  function updateSale(id, saleData) {
+  function updateSales(id, saleData) {
     dispatch({ type: "UPDATE", payload: { id: id, data: saleData } });
   }
 
   const value = {
     sales: saleState,
-    addSale: addSale,
+    addSales: addSales,
     setSale: setSale,
-    deleteSale: deleteSale,
-    updateSale: updateSale,
+    deleteSales: deleteSales,
+    updateSales: updateSales,
   };
 
   return (

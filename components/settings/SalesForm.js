@@ -1,13 +1,20 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import Input from "../ManageTasks/Input";
 import ButtonForm from "../UI/Buttons/ButtonForm";
+import { updateSales } from "../../util/sales";
+import { SalesContext } from "../../store/sales-context";
 
 const SalesForm = ({ defaultValues }) => {
   const navigation = useNavigation();
+
   const [inputs, setInputs] = useState({
+    id: {
+      value: defaultValues ? defaultValues.id : "",
+      isValid: true,
+    },
     name: {
       value: defaultValues ? defaultValues.name : "",
       isValid: true,
@@ -25,6 +32,18 @@ const SalesForm = ({ defaultValues }) => {
         [inputIdentifier]: { value: enteredValue, isValid: true },
       };
     });
+  }
+
+  const salesCtx = useContext(SalesContext);
+
+  async function confirmHandler(taskData) {
+    try {
+      console.log("Where");
+      await updateSales(inputs.id.value, taskData);
+      salesCtx.updateSales(inputs.id.value, taskData);
+    } catch (error) {
+      console.log("Error updating");
+    }
   }
 
   return (
@@ -50,7 +69,7 @@ const SalesForm = ({ defaultValues }) => {
         leftLabel="Cancel"
         rightLabel="Update"
         cancelHandler={() => navigation.goBack()}
-        // submitHandler={}
+        submitHandler={confirmHandler}
       />
     </View>
   );
