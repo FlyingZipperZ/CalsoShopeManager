@@ -17,6 +17,28 @@ import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
 
 const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
+  const salesCtx = useContext(SalesContext);
+
+  const data = [];
+
+  useEffect(() => {
+    async function getSales() {
+      setIsFetching(true);
+      try {
+        const sales = await fetchSales();
+        salesCtx.setSale(sales);
+      } catch (error) {
+        setError("Unable to load Sales");
+      }
+      setIsFetching(false);
+    }
+    getSales();
+  }, []);
+
+  for (let content of salesCtx.sales) {
+    data.push({ label: content.name, value: content.number });
+  }
+
   const [inputs, setInputs] = useState({
     name: {
       value: defaultValues ? defaultValues.name : "",
@@ -80,7 +102,7 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
       dueDate: getDate(date),
       sales: salePersonState,
       number: saleNumberState,
-      notes: "",
+      notes: inputs.notes.value,
       location: inputs.location.value,
     };
 
@@ -105,8 +127,6 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
       });
       return;
     }
-    console.log("SubmitHandler: ");
-    console.log(taskData);
     // pushes data back to parent
     onSubmit(taskData);
   }
@@ -122,28 +142,6 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState();
-
-  const salesCtx = useContext(SalesContext);
-
-  const data = [];
-
-  useEffect(() => {
-    async function getSales() {
-      setIsFetching(true);
-      try {
-        const sales = await fetchSales();
-        salesCtx.setSale(sales);
-      } catch (error) {
-        setError("Unable to load Sales");
-      }
-      setIsFetching(false);
-    }
-    getSales();
-  }, []);
-
-  for (let content of salesCtx.sales) {
-    data.push({ label: content.name, value: content.number });
-  }
 
   return (
     <ScrollView style={styles.container}>

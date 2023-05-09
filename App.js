@@ -14,6 +14,7 @@ import TaskContextProvider from "./store/task-context";
 import AllTasks from "./screens/TaskStack/AllTasks";
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
+import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
 
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
 import ClockIOScreen from "./screens/ClockIOScreen";
@@ -22,6 +23,7 @@ import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
 import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
 import SaleContextProvider from "./store/sales-context";
 import SalesPeople from "./screens/SettingsStack/SalesPeople";
+import EditSales from "./components/settings/SalesList/EditSales";
 
 const BottomTabs = createBottomTabNavigator();
 const Task = createNativeStackNavigator();
@@ -127,6 +129,13 @@ function SettingNavigator() {
         component={AddSalesPeople}
         options={{
           title: "Add Sales People",
+        }}
+      />
+      <Settings.Screen
+        name={"EditSales"}
+        component={EditSales}
+        options={{
+          title: "Edit Sales Person",
         }}
       />
     </Settings.Navigator>

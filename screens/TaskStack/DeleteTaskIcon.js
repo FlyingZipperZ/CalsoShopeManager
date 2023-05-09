@@ -1,15 +1,14 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import AllTasks from "./AllTasks";
 
-const DeleteTaskIcon = ({ icon, size, color, onPress }) => {
+const DeleteTaskIcon = ({ icon, size, color, onPress, onDelete }) => {
   const navigation = useNavigation();
 
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate(AllTasks);
+        navigation.navigate(onDelete);
         onPress();
       }}
       style={({ pressed }) => pressed && styles.pressed}

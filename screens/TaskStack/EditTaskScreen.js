@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useState, useLayoutEffect, useContext } from "react";
+import React, { useState, useLayoutEffect, useContext, useMemo } from "react";
 
 import TaskForm from "../../components/ManageTasks/TaskForm";
 import { deleteTask, updateTask } from "../../util/https";
 import { TaskContext } from "../../store/task-context";
 import DeleteTaskIcon from "./DeleteTaskIcon";
+import AllTasks from "./AllTasks";
 
 const EditTaskScreen = ({ route, navigation }) => {
-  const defaultValues = route.params?.defaultValues;
+  const defaultValues = route.params.defaultValues;
 
   const [inputs, setInputs] = useState({
     id: {
@@ -44,49 +45,11 @@ const EditTaskScreen = ({ route, navigation }) => {
     },
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState();
-
-  const tasksCtx = useContext(TaskContext);
-
-  async function deleteHandler() {
-    setIsSubmitting(true);
-    try {
-      await deleteTask(inputs.id.value);
-      tasksCtx.deleteTask(inputs.id.value);
-    } catch (error) {
-      setError("Cannot delete try again later!");
-    }
-    setIsSubmitting(false);
-  }
-
-  async function confirmHandler(taskData) {
-    setIsSubmitting(true);
-    console.log("confirmHandler: ");
-    console.log(taskData);
-    try {
-      await updateTask(inputs.id.value, taskData);
-      tasksCtx.updateTask(inputs.id.value, taskData);
-    } catch (error) {
-      setError("Could not save Data try again later");
-      setIsSubmitting(false);
-    }
-    navigation.goBack();
-  }
-
-  function cancelHandler() {
-    navigation.goBack();
-  }
-
-  function onDone() {
-    navigation.goBack();
-  }
-
   useLayoutEffect(() => {
     navigation.setOptions(
       {
         headerLeft: ({ tintColor }) => (
-          <Pressable onPress={onDone}>
+          <Pressable onPress={() => navigation.goBack()}>
             <Text style={{ color: tintColor, fontSize: 16 }}>Done</Text>
           </Pressable>
         ),
@@ -95,11 +58,32 @@ const EditTaskScreen = ({ route, navigation }) => {
     );
   });
 
+  const tasksCtx = useContext(TaskContext);
+
+  async function deleteHandler() {
+    try {
+      await deleteTask(inputs.id.value);
+      tasksCtx.deleteTask(inputs.id.value);
+    } catch (error) {
+      setError("Cannot delete try again later!");
+    }
+  }
+
+  async function confirmHandler(taskData) {
+    try {
+      await updateTask(inputs.id.value, taskData);
+      tasksCtx.updateTask(inputs.id.value, taskData);
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not save Data try again later");
+    }
+  }
+
   return (
     <View style={styles.container}>
       <TaskForm
         onSubmit={confirmHandler}
-        onCancel={cancelHandler}
+        onCancel={() => navigation.goBack()}
         defaultValues={defaultValues}
       />
       <View style={styles.trash}>
@@ -108,6 +92,7 @@ const EditTaskScreen = ({ route, navigation }) => {
           size={40}
           color={"#d43838"}
           onPress={deleteHandler}
+          onDelete={AllTasks}
         />
       </View>
     </View>
@@ -124,46 +109,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 30,
-  },
-  modalView: {
-    marginVertical: 200,
-    marginHorizontal: 50,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  buttonOpen: {
-    backgroundColor: "#2437e0",
-    borderRadius: 5,
-    padding: 8,
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-    borderRadius: 5,
-    padding: 8,
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
-  },
-  centeredView: {
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 22,
   },
 });

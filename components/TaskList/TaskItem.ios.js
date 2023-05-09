@@ -12,10 +12,11 @@ import { createOpenLink } from "react-native-open-maps";
 import TaskCompleteTracker from "./TaskCompleteTracker";
 import { Dropdown } from "react-native-element-dropdown";
 import { useNavigation } from "@react-navigation/native";
+import call from "react-native-phone-call";
 
 import Input from "../ManageTasks/Input";
 import ButtonForm from "../UI/Buttons/ButtonForm";
-import EditTaskScreen from "../../screens/TaskStack/EditTaskScreen";
+import EditTaskScreen from "../../screens/TaskStack/EditTaskScreenOld";
 
 const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
   const createThreeButtonAlert = () =>
@@ -78,9 +79,9 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
   const navigation = useNavigation();
 
   function onEdit() {
-    // navigation.navigate("EditTaskScreen", {
-    //   defaultValues: defaultValues,
-    // });
+    navigation.navigate("EditTaskScreen", {
+      defaultValues: defaultValues,
+    });
   }
 
   useLayoutEffect(() => {
@@ -152,13 +153,37 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
     { label: "Installed", value: "Installed" },
   ];
 
+  function callHandler() {
+    let phoneCall = inputs.number.value.replace("(", "");
+    phoneCall = phoneCall.replace(")", "");
+    phoneCall = phoneCall.replace(" ", "");
+    phoneCall = phoneCall.replace("-", "");
+
+    console.log(phoneCall);
+
+    // Check for perfect 10 digit length
+    if (phoneCall.length != 10) {
+      alert("Please insert correct contact number");
+      return;
+    }
+
+    const args = {
+      number: phoneCall,
+      prompt: true,
+    };
+    // Make a call
+    call(args).catch(console.error);
+  }
+
   return (
     <ScrollView>
       <View style={styles.taskItem}>
         <View style={styles.innerContainer}>
           <Text style={styles.text}>Job name: {inputs.name.value}</Text>
           <Text style={styles.text}>Sales Person: {inputs.sales.value}</Text>
-          <Text style={styles.text}>Number: {inputs.number.value}</Text>
+          <View>
+            <Button title={inputs.number.value} onPress={callHandler} />
+          </View>
           <Text style={styles.text}>Due Date: {inputs.dueDate.value}</Text>
           <Text style={styles.text}>Status: {taskState}</Text>
           <TaskCompleteTracker status={taskState} />
@@ -206,6 +231,7 @@ export default TaskItem;
 
 const styles = StyleSheet.create({
   taskItem: {
+    flex: 1,
     margin: 16,
     borderRadius: 8,
     backgroundColor: "white",

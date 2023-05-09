@@ -1,19 +1,28 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import { fetchSales } from "../../../util/sales";
 import { SalesContext } from "../../../store/sales-context";
 
-function renderSalesPerson(itemData) {
-  return (
-    <View style={styles.listContainer}>
-      <Text>Name: {itemData.item.name}</Text>
-      <Text>Phone: {itemData.item.number}</Text>
-    </View>
-  );
-}
-
 const SalesList = ({ sales }) => {
+  const navigation = useNavigation();
+
+  function renderSalesPerson(itemData) {
+    function onPressHandler() {
+      navigation.navigate("EditSales", {
+        salesId: itemData.item.id,
+      });
+    }
+
+    return (
+      <Pressable style={styles.listContainer} onPress={onPressHandler}>
+        <Text>Name: {itemData.item.name}</Text>
+        <Text>Phone: {itemData.item.number}</Text>
+      </Pressable>
+    );
+  }
+
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState();
 

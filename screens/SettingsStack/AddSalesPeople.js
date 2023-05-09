@@ -37,7 +37,13 @@ const AddSalesPeople = ({ navigation, salesCtx }) => {
   async function submitHandler() {
     const saleData = {
       name: inputs.name.value,
-      number: inputs.number.value,
+      number:
+        "(" +
+        inputs.number.value.slice(0, 3) +
+        ") " +
+        inputs.number.value.slice(3, 6) +
+        "-" +
+        inputs.number.value.slice(6, 10),
     };
 
     const nameIsValid = saleData.name.trim().length > 0;
@@ -62,7 +68,7 @@ const AddSalesPeople = ({ navigation, salesCtx }) => {
       setError("Could not save Data try again later");
       setIsSubmitting(false);
     }
-    cancelHandler();
+    navigation.goBack();
   }
 
   if (isSubmitting) {
@@ -88,7 +94,7 @@ const AddSalesPeople = ({ navigation, salesCtx }) => {
         leftLabel={"Cancel"}
         rightLabel={"Add"}
         submitHandler={submitHandler}
-        cancelHandler={cancelHandler}
+        cancelHandler={() => navigation.goBack()}
       />
     </View>
   );

@@ -6,6 +6,7 @@ import ErrorOverlay from "../../components/UI/ErrorOverlay";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import { storeTask, deleteTask } from "../../util/https";
 import { TaskContext } from "../../store/task-context";
+import taskAddHandler from "../../util/Task/taskAddHandler";
 
 const AddTaskScreen = ({ route, navigation }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,12 +17,9 @@ const AddTaskScreen = ({ route, navigation }) => {
 
   const selectedTask = taskCtx.tasks.find((tasks) => tasks.id === editedTaskId);
 
-  function cancelHandler() {
-    navigation.goBack();
-  }
-
   async function confirmHandler(taskData) {
     setIsSubmitting(true);
+    // taskAddHandler(taskData);
     try {
       const id = await storeTask(taskData);
       taskCtx.addTask({ ...taskData, id: id });
@@ -44,7 +42,7 @@ const AddTaskScreen = ({ route, navigation }) => {
     <View>
       <TaskForm
         onSubmit={confirmHandler}
-        onCancel={cancelHandler}
+        onCancel={() => navigation.goBack()}
         defaultValues={selectedTask}
       />
     </View>

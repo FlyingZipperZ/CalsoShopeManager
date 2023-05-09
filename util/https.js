@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const BACKEND_URL = "https://shop-manager-d9c60-default-rtdb.firebaseio.com";
+const BACKEND_URL = "https://shop-manager-d9c60-default-rtdb.firebaseio.com/";
 
 export async function storeTask(taskData) {
-  const response = await axios.post(BACKEND_URL + "/task.json", taskData);
+  const response = await axios.post(BACKEND_URL + "task.json", taskData);
   const id = response.data.name;
   return id;
 }
 
 export async function fetchTasks() {
-  const response = await axios.get(BACKEND_URL + "/task.json");
+  const response = await axios.get(BACKEND_URL + "task.json");
 
   const tasks = [];
 
@@ -31,11 +31,9 @@ export async function fetchTasks() {
 }
 
 export function updateTask(id, taskData) {
-  console.log("updateTask: ");
-  console.log(taskData);
-  return axios.put(BACKEND_URL + `/task/${id}.json`, taskData);
+  return axios.put(BACKEND_URL + `task/${id}.json`, taskData);
 }
 
 export function deleteTask(id) {
-  return axios.delete(BACKEND_URL + `/task/${id}.json`);
+  return axios.delete(BACKEND_URL + `task/${id}.json`);
 }
