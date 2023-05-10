@@ -1,15 +1,14 @@
 import axios from "axios";
-
-const BACKEND_URL = "https://shop-manager-d9c60-default-rtdb.firebaseio.com";
+import { BACKEND_URL } from "./backend";
 
 export async function storeSales(salesData) {
-  const response = await axios.post(BACKEND_URL + "/sales.json", salesData);
+  const response = await axios.post(BACKEND_URL + "sales.json", salesData);
   const id = response.data.name;
   return id;
 }
 
 export async function fetchSales() {
-  const response = await axios.get(BACKEND_URL + "/sales.json");
+  const response = await axios.get(BACKEND_URL + "sales.json");
 
   const sales = [];
 
@@ -25,9 +24,9 @@ export async function fetchSales() {
 }
 
 export function updateSales(id, salesData) {
-  return axios.put(BACKEND_URL + `/sales/${id}.json`, salesData);
+  return axios.put(BACKEND_URL + `sales/${id}.json`, salesData);
 }
 
 export function deleteSales(id) {
-  return axios.delete(BACKEND_URL + `/sales/${id}.json`);
+  return axios.delete(BACKEND_URL + `sales/${id}.json`);
 }

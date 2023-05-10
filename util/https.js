@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const BACKEND_URL = "https://shop-manager-d9c60-default-rtdb.firebaseio.com/";
+import { BACKEND_URL } from "./backend";
 
 export async function storeTask(taskData) {
   const response = await axios.post(BACKEND_URL + "task.json", taskData);

@@ -4,8 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import Input from "../ManageTasks/Input";
 import ButtonForm from "../UI/Buttons/ButtonForm";
-import { updateSales } from "../../util/sales";
 import { SalesContext } from "../../store/sales-context";
+import { updateSales } from "../../util/sales";
 
 const SalesForm = ({ defaultValues }) => {
   const navigation = useNavigation();
@@ -36,11 +36,28 @@ const SalesForm = ({ defaultValues }) => {
 
   const salesCtx = useContext(SalesContext);
 
-  async function confirmHandler(taskData) {
+  async function confirmHandler() {
+    const salesData = {
+      name: inputs.name.value,
+      number: inputs.number.value,
+    };
+
+    const nameIsValid = salesData.name.trim().length > 0;
+    const numberIsValid = salesData.number.trim().length > 0;
+
+    if (!nameIsValid || !numberIsValid) {
+      setInputs((curInputs) => {
+        return {
+          name: { value: curInputs.name.value, isValid: nameIsValid },
+          number: { value: curInputs.number.value, isValid: numberIsValid },
+        };
+      });
+      return;
+    }
+
     try {
-      console.log("Where");
-      await updateSales(inputs.id.value, taskData);
-      salesCtx.updateSales(inputs.id.value, taskData);
+      await updateSales(inputs.id.value, salesData);
+      salesCtx.updateSales(inputs.id.value, salesData);
     } catch (error) {
       console.log("Error updating");
     }

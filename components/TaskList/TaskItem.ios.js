@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,9 +14,9 @@ import { Dropdown } from "react-native-element-dropdown";
 import { useNavigation } from "@react-navigation/native";
 import call from "react-native-phone-call";
 
+import { fetchTasks } from "../../util/https";
 import Input from "../ManageTasks/Input";
 import ButtonForm from "../UI/Buttons/ButtonForm";
-import EditTaskScreen from "../../screens/TaskStack/EditTaskScreenOld";
 
 const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
   const createThreeButtonAlert = () =>
@@ -97,7 +97,7 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
     );
   });
 
-  function submitHandler() {
+  async function submitHandler() {
     const taskData = {
       name: inputs.name.value,
       status: taskState,

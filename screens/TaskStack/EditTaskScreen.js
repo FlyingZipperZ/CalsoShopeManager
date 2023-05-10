@@ -73,7 +73,7 @@ const EditTaskScreen = ({ route, navigation }) => {
     try {
       await updateTask(inputs.id.value, taskData);
       tasksCtx.updateTask(inputs.id.value, taskData);
-      navigation.goBack();
+      navigation.navigate(AllTasks);
     } catch (error) {
       setError("Could not save Data try again later");
     }

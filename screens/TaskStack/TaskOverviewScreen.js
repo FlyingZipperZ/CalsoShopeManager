@@ -1,6 +1,6 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import TaskItem from "../../components/TaskList/TaskItem";
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { TaskContext } from "../../store/task-context";
 import ErrorOverlay from "../../components/UI/ErrorOverlay";
