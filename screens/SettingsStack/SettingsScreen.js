@@ -5,12 +5,21 @@ import { useNavigation } from "@react-navigation/native";
 
 import SettingButtons from "../../components/settings/SettingsButtons/SettingButtons";
 import LogoutButton from "../../components/settings/SettingsButtons/LogoutButton";
+import { useContext } from "react";
+import { AuthContext } from "../../store/auth-context";
 
+// Setting screen
+// responsable for setttings buttons
+// Sales people
+// Canel
+// Logout
 const SettingsScreen = () => {
   const navigation = useNavigation();
   function addHandler() {
     navigation.navigate("SalesPeople");
   }
+
+  const authCtx = useContext(AuthContext);
 
   function buttonHandler() {
     Alert.alert(
@@ -22,9 +31,10 @@ const SettingsScreen = () => {
       ]
     );
   }
+
   function logOutHandler() {
     Alert.alert("Logout?", "Are you sure you'd like to logout?", [
-      { text: "Logout" },
+      { text: "Logout", onPress: authCtx.logout },
       { text: "Cancel", style: "cancel" },
     ]);
   }
