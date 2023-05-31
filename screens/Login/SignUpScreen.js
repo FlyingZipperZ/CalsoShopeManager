@@ -5,6 +5,10 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { Alert } from "react-native";
 import { createUser } from "../../util/auth";
 
+// Sign up screen
+// takes email and password from sign up form (AuthContent)
+// took email and password and sent it to the firebase backend
+// firebase
 const SignUpScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -21,6 +25,7 @@ const SignUpScreen = () => {
         "Could not create user, please check your input and try again later."
       );
     }
+
     setIsAuthenticating(false);
   }
 

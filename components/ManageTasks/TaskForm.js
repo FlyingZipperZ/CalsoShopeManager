@@ -16,6 +16,8 @@ import { Dropdown } from "react-native-element-dropdown";
 import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
 
+// TaskForm called and used to submit a new task to the AllTasks page
+
 const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   const salesCtx = useContext(SalesContext);
 

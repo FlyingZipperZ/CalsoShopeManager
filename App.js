@@ -18,7 +18,7 @@ import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
 import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
 
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
-import ClockIOScreen from "./screens/ClockIOScreen";
+import ClockIOScreen from "./screens/ClockIO/ClockIOScreen";
 
 import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
 import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
@@ -30,14 +30,17 @@ import { useContext, useEffect, useState } from "react";
 import LoginScreen from "./screens/Login/LoginScreen";
 import SignUpScreen from "./screens/Login/SignUpScreen";
 
+// sets up all the navigation stacks for each different part of the app
+// main stack is Bottom Tabs
 const BottomTabs = createBottomTabNavigator();
 const Task = createNativeStackNavigator();
 const Calendar = createNativeStackNavigator();
 const Settings = createNativeStackNavigator();
 const Authentication = createNativeStackNavigator();
-// const AuthenticatedStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 
+// Task navigator responsable for the task stack
+// showing the task stack with every job in on the database
 function TaskNavigator() {
   return (
     <Task.Navigator
@@ -45,6 +48,7 @@ function TaskNavigator() {
         headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
       }}
     >
+      {/* AllTasks is the main page for the inprogress tab */}
       <Task.Screen
         name={"AllTasks"}
         component={AllTasks}
@@ -60,6 +64,8 @@ function TaskNavigator() {
           ),
         }}
       />
+      {/* TaskOverViewScreen shows the details of the job in question after tapping
+       the job from the AllTask screen */}
       <Task.Screen
         name={"TaskOverviewScreen"}
         component={TaskOverviewScreen}
@@ -67,6 +73,8 @@ function TaskNavigator() {
           title: "Details",
         }}
       />
+      {/* EditTaskScreen pops up a a modal and changes the details within the job 
+      and exits back to AllTasks */}
       <Task.Screen
         name={"EditTaskScreen"}
         component={EditTaskScreen}
@@ -75,6 +83,7 @@ function TaskNavigator() {
           presentation: "modal",
         }}
       />
+      {/* AddTaskScreen Button at the top of AllTasks for the admin to add new jobs to the stack */}
       <Task.Screen
         name={"AddTaskScreen"}
         component={AddTaskScreen}
@@ -86,6 +95,7 @@ function TaskNavigator() {
   );
 }
 
+// CalenarNavigator under the Calendar bottom tab showing a calendar
 function CalendarNavigator() {
   return (
     <Calendar.Navigator
@@ -93,6 +103,7 @@ function CalendarNavigator() {
         headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
       }}
     >
+      {/* Displays the calendar and the jobs on different days */}
       <Calendar.Screen
         name={"CalendarScreen"}
         component={CalendarScreen}
@@ -100,6 +111,7 @@ function CalendarNavigator() {
           title: "Calendar",
         }}
       />
+      {/* Displays the overview of the different jobs baised on the day selected */}
       <Calendar.Screen
         name={"CalendarOverviewScreen"}
         component={CalendarOverviewScreen}
@@ -111,6 +123,7 @@ function CalendarNavigator() {
   );
 }
 
+// SettingNavigator under the Settings tab
 function SettingNavigator() {
   return (
     <Settings.Navigator
@@ -118,6 +131,7 @@ function SettingNavigator() {
         headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
       }}
     >
+      {/* Settings tab first page allowing users to do different things (incomplete) */}
       <Settings.Screen
         name={"SettingsScreen"}
         component={SettingsScreen}
@@ -125,6 +139,7 @@ function SettingNavigator() {
           title: "Settings",
         }}
       />
+      {/* Button that allows admins to add and delete sales people */}
       <Settings.Screen
         name={"SalesPeople"}
         component={SalesPeople}
@@ -132,6 +147,7 @@ function SettingNavigator() {
           title: "Sales People",
         }}
       />
+      {/* A page that allows admins to add the sales people */}
       <Settings.Screen
         name={"AddSalesPeople"}
         component={AddSalesPeople}
@@ -139,6 +155,7 @@ function SettingNavigator() {
           title: "Add Sales People",
         }}
       />
+      {/* A editable page for admins */}
       <Settings.Screen
         name={"EditSales"}
         component={EditSales}
@@ -150,6 +167,8 @@ function SettingNavigator() {
   );
 }
 
+// ButtonTabsNavigator the main navigation for the app that keeps the
+// app together and brings everything into 1
 function BottomTabsNavigator() {
   return (
     <TaskContextProvider>
@@ -159,6 +178,7 @@ function BottomTabsNavigator() {
             headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
           }}
         >
+          {/* TaskStack which holds the TaskNavigator to keep everything together */}
           <BottomTabs.Screen
             name="TaskStack"
             component={TaskNavigator}
@@ -170,6 +190,7 @@ function BottomTabsNavigator() {
               ),
             }}
           />
+          {/* CalenderStack which holds the CalendarNavigator */}
           <BottomTabs.Screen
             name="CalendarStack"
             component={CalendarNavigator}
@@ -181,6 +202,7 @@ function BottomTabsNavigator() {
               ),
             }}
           />
+          {/* ClockIOScreen which needs to be seen still */}
           <BottomTabs.Screen
             name="ClockIOScreen"
             component={ClockIOScreen}
@@ -192,6 +214,7 @@ function BottomTabsNavigator() {
               ),
             }}
           />
+          {/* SettingsNavigator which holds the SettingNavigator with all the buttons */}
           <BottomTabs.Screen
             name="Settings"
             component={SettingNavigator}
@@ -209,6 +232,7 @@ function BottomTabsNavigator() {
   );
 }
 
+// AuthStack which holds the login and sign up pages in order to bring everything together
 function AuthStack() {
   const authCtx = useContext(AuthContext);
   return (
@@ -217,15 +241,20 @@ function AuthStack() {
         headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
       }}
     >
+      {/* Login screen */}
       <Authentication.Screen name="Login" component={LoginScreen} />
-      <Authentication.Screen name="Signup" component={SignUpScreen} />
+      {/* SignUp screen */}
+      <Authentication.Screen
+        name="Signup"
+        component={SignUpScreen}
+        options={{ title: "Sign Up" }}
+      />
     </Authentication.Navigator>
   );
 }
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -242,6 +271,7 @@ function AuthenticatedStack() {
   );
 }
 
+// The main Root of the whole app in order to keep everything together
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
 
@@ -267,6 +297,8 @@ function Root() {
   return <Navigation />;
 }
 
+// this is the part of the app that seperates
+// the authenticated and the non authenticated part of the app
 function Navigation() {
   const authCtx = useContext(AuthContext);
   return (

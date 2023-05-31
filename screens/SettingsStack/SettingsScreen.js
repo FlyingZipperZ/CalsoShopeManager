@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Alert } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -11,10 +11,11 @@ import { AuthContext } from "../../store/auth-context";
 // Setting screen
 // responsable for setttings buttons
 // Sales people
-// Canel
+//
 // Logout
 const SettingsScreen = () => {
   const navigation = useNavigation();
+
   function addHandler() {
     navigation.navigate("SalesPeople");
   }

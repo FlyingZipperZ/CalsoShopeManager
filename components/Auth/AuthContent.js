@@ -4,8 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 
 import FlatButton from "../ui/FlatButton";
 import AuthForm from "./AuthForm";
-// import { Colors } from "../../constants/styles";
 
+// Login page with two settings => login and sign up
+// Login sets a token with the firebase off of a authenticated user
+// Sign up
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
 
@@ -16,6 +18,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
     confirmPassword: false,
   });
 
+  // Switching the mode between the different sign up and login
   function switchAuthModeHandler() {
     if (isLogin) {
       navigation.replace("Signup");
@@ -24,6 +27,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
     }
   }
 
+  // handles the submit buttons (Log In/Sign Up)
   function submitHandler(credentials) {
     let { email, confirmEmail, password, confirmPassword } = credentials;
 

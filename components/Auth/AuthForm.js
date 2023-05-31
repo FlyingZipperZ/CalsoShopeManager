@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import Input from "./Input";
 import Button from "../ui/Buttons/Button";
 
+// AuthForm is used twice but in different ways
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState("");
