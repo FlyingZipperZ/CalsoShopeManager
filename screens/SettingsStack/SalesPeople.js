@@ -4,10 +4,10 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import SalesList from "../../components/settings/SalesList/SalesList";
 import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
-import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import ErrorOverlay from "../../components/ui/ErrorOverlay";
-import Button from "../../components/ui/Buttons/Button";
-import IconButton from "../../components/ui/IconButton";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
+import Button from "../../components/UI/Buttons/Button";
+import IconButton from "../../components/UI/IconButton";
 
 const SalesPeople = ({ navigation }) => {
   const [isFetching, setIsFetching] = useState(true);

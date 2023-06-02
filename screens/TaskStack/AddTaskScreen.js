@@ -2,8 +2,8 @@ import { StyleSheet, View } from "react-native";
 import React, { useLayoutEffect, useState, useContext } from "react";
 
 import TaskForm from "../../components/ManageTasks/TaskForm";
-import ErrorOverlay from "../../components/ui/ErrorOverlay";
-import LoadingOverlay from "../../components/ui/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import { storeTask, deleteTask } from "../../util/https";
 import { TaskContext } from "../../store/task-context";
 import taskAddHandler from "../../util/Task/taskAddHandler";

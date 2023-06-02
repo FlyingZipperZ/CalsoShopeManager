@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import Input from "../ManageTasks/Input";
-import ButtonForm from "../ui/Buttons/ButtonForm";
+import ButtonForm from "../UI/Buttons/ButtonForm";
 import { SalesContext } from "../../store/sales-context";
 import { updateSales } from "../../util/sales";
 

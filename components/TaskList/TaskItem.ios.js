@@ -16,7 +16,7 @@ import call from "react-native-phone-call";
 
 import { fetchTasks } from "../../util/https";
 import Input from "../ManageTasks/Input";
-import ButtonForm from "../ui/Buttons/ButtonForm";
+import ButtonForm from "../UI/Buttons/ButtonForm";
 
 const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
   const createThreeButtonAlert = () =>

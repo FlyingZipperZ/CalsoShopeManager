@@ -5,7 +5,7 @@ import { TaskContext } from "../../store/task-context";
 
 import TaskTile from "../../components/TaskTile";
 import { fetchTasks } from "../../util/https";
-import ErrorOverlay from "../../components/ui/ErrorOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
 
 const TaskListOverView = ({ tasks }) => {
   const navigation = useNavigation();

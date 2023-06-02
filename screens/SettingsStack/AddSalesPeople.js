@@ -2,9 +2,9 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 
 import Input from "../../components/ManageTasks/Input";
-import ButtonForm from "../../components/ui/Buttons/ButtonForm";
+import ButtonForm from "../../components/UI/Buttons/ButtonForm";
 import { storeSales } from "../../util/sales";
-import LoadingOverlay from "../../components/ui/LoadingOverlay";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
 
 const AddSalesPeople = ({ navigation, salesCtx }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

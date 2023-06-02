@@ -11,7 +11,7 @@ import { TextInput } from "react-native-gesture-handler";
 import DatePicker from "react-native-modern-datepicker";
 
 import Input from "./Input";
-import ButtonForm from "../ui/Buttons/ButtonForm";
+import ButtonForm from "../UI/Buttons/ButtonForm";
 import { Dropdown } from "react-native-element-dropdown";
 import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";

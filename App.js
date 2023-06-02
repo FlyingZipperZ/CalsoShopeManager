@@ -4,12 +4,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { GlobalStyles } from "./constants/styles";
 import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
 import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScreen";
-import IconButton from "./components/ui/IconButton";
+
 import TaskContextProvider from "./store/task-context";
 
 import AllTasks from "./screens/TaskStack/AllTasks";
@@ -25,10 +24,6 @@ import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
 import SaleContextProvider from "./store/sales-context";
 import SalesPeople from "./screens/SettingsStack/SalesPeople";
 import EditSales from "./components/settings/SalesList/EditSales";
-import AuthContextProvider, { AuthContext } from "./store/auth-context";
-import { useContext, useEffect, useState } from "react";
-import LoginScreen from "./screens/Login/LoginScreen";
-import SignUpScreen from "./screens/Login/SignUpScreen";
 
 // sets up all the navigation stacks for each different part of the app
 // main stack is Bottom Tabs
@@ -37,6 +32,7 @@ const Task = createNativeStackNavigator();
 const Calendar = createNativeStackNavigator();
 const Settings = createNativeStackNavigator();
 const Authentication = createNativeStackNavigator();
+// const AuthenticatedStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 
 // Task navigator responsable for the task stack
@@ -167,8 +163,6 @@ function SettingNavigator() {
   );
 }
 
-// ButtonTabsNavigator the main navigation for the app that keeps the
-// app together and brings everything into 1
 function BottomTabsNavigator() {
   return (
     <TaskContextProvider>
@@ -178,7 +172,6 @@ function BottomTabsNavigator() {
             headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
           }}
         >
-          {/* TaskStack which holds the TaskNavigator to keep everything together */}
           <BottomTabs.Screen
             name="TaskStack"
             component={TaskNavigator}
@@ -190,7 +183,6 @@ function BottomTabsNavigator() {
               ),
             }}
           />
-          {/* CalenderStack which holds the CalendarNavigator */}
           <BottomTabs.Screen
             name="CalendarStack"
             component={CalendarNavigator}
@@ -202,7 +194,6 @@ function BottomTabsNavigator() {
               ),
             }}
           />
-          {/* ClockIOScreen which needs to be seen still */}
           <BottomTabs.Screen
             name="ClockIOScreen"
             component={ClockIOScreen}
@@ -214,7 +205,6 @@ function BottomTabsNavigator() {
               ),
             }}
           />
-          {/* SettingsNavigator which holds the SettingNavigator with all the buttons */}
           <BottomTabs.Screen
             name="Settings"
             component={SettingNavigator}
@@ -232,7 +222,6 @@ function BottomTabsNavigator() {
   );
 }
 
-// AuthStack which holds the login and sign up pages in order to bring everything together
 function AuthStack() {
   const authCtx = useContext(AuthContext);
   return (
@@ -241,20 +230,15 @@ function AuthStack() {
         headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
       }}
     >
-      {/* Login screen */}
       <Authentication.Screen name="Login" component={LoginScreen} />
-      {/* SignUp screen */}
-      <Authentication.Screen
-        name="Signup"
-        component={SignUpScreen}
-        options={{ title: "Sign Up" }}
-      />
+      <Authentication.Screen name="Signup" component={SignUpScreen} />
     </Authentication.Navigator>
   );
 }
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -271,7 +255,6 @@ function AuthenticatedStack() {
   );
 }
 
-// The main Root of the whole app in order to keep everything together
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
 
@@ -297,8 +280,6 @@ function Root() {
   return <Navigation />;
 }
 
-// this is the part of the app that seperates
-// the authenticated and the non authenticated part of the app
 function Navigation() {
   const authCtx = useContext(AuthContext);
   return (
