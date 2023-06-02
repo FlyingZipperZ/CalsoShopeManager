@@ -3,8 +3,8 @@ import TaskItem from "../../components/TaskList/TaskItem";
 import { useContext, useState } from "react";
 
 import { TaskContext } from "../../store/task-context";
-import ErrorOverlay from "../../components/UI/ErrorOverlay";
-import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/ui/ErrorOverlay";
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { updateTask } from "../../util/https";
 
 const CalendarOverviewScreen = ({ route, navigation }) => {

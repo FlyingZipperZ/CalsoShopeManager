@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { TaskContext } from "../../store/task-context";
 import { fetchTasks } from "../../util/https";
-import ErrorOverlay from "../../components/UI/ErrorOverlay";
-import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/ui/ErrorOverlay";
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
 
 const AllTasks = () => {
