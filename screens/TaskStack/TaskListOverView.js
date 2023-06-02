@@ -35,6 +35,8 @@ const TaskListOverView = ({ tasks }) => {
   //   return <ErrorOverlay />;
   // }
 
+  console.log(tasks);
+
   return (
     <FlatList
       data={tasks}

@@ -6,6 +6,8 @@ import TaskListOverView from "../../screens/TaskStack/TaskListOverView";
 const TaskOutput = ({ tasks, fallBackText }) => {
   let content = <Text>{fallBackText}</Text>;
 
+  // console.log(tasks);
+
   if (tasks.length > 0) {
     content = <TaskListOverView tasks={tasks} />;
   }

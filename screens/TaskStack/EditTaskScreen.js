@@ -5,7 +5,7 @@ import TaskForm from "../../components/ManageTasks/TaskForm";
 import { deleteTask, updateTask } from "../../util/https";
 import { TaskContext } from "../../store/task-context";
 import DeleteTaskIcon from "./DeleteTaskIcon";
-import AllTasks from "./AllTasks";
+import AllTasks from "./Complete";
 
 const EditTaskScreen = ({ route, navigation }) => {
   const defaultValues = route.params.defaultValues;

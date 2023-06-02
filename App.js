@@ -1,32 +1,39 @@
-import { Button, Pressable, Text } from "react-native";
+import { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
+
+// Navigation Stack
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { GlobalStyles } from "./constants/styles";
-import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
-import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScreen";
 import IconButton from "./components/ui/IconButton";
-import TaskContextProvider from "./store/task-context";
 
-import AllTasks from "./screens/TaskStack/AllTasks";
+// Task Stack
+import InProgress from "./screens/TaskStack/InProgress";
+import Complete from "./screens/TaskStack/Complete";
+import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
+import TaskContextProvider from "./store/task-context";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
-import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
 
+// Calendar Stack
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
+import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScreen";
+
 import ClockIOScreen from "./screens/ClockIO/ClockIOScreen";
 
+// Settings Stack
 import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
 import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
 import SaleContextProvider from "./store/sales-context";
 import SalesPeople from "./screens/SettingsStack/SalesPeople";
 import EditSales from "./components/settings/SalesList/EditSales";
-import AuthContextProvider, { AuthContext } from "./store/auth-context";
-import { useContext, useEffect, useState } from "react";
 import LoginScreen from "./screens/Login/LoginScreen";
 import SignUpScreen from "./screens/Login/SignUpScreen";
 
@@ -39,6 +46,17 @@ const Settings = createNativeStackNavigator();
 const Authentication = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 
+const Tab = createMaterialTopTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="In Progress" component={InProgress} />
+      <Tab.Screen name="Complete" component={Complete} />
+    </Tab.Navigator>
+  );
+}
+
 // Task navigator responsable for the task stack
 // showing the task stack with every job in on the database
 function TaskNavigator() {
@@ -50,8 +68,8 @@ function TaskNavigator() {
     >
       {/* AllTasks is the main page for the inprogress tab */}
       <Task.Screen
-        name={"AllTasks"}
-        component={AllTasks}
+        name={"MyTabs"}
+        component={MyTabs}
         options={{
           title: "Task Screen",
           headerRight: ({ tintColor }) => (

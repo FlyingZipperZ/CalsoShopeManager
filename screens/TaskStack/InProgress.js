@@ -7,7 +7,7 @@ import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
 
-const AllTasks = () => {
+const InProgress = ({ title }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
 
@@ -40,15 +40,16 @@ const AllTasks = () => {
     return <LoadingOverlay />;
   }
 
+  const status = [];
+  status.push(tasksCtx.tasks.find((task) => task.status !== "Installed"));
+
+  console.log(title);
+
   return (
-    <TaskOutput
-      tasks={tasksCtx.tasks}
-      fallBackText="No tasks"
-      style={{ flex: 1 }}
-    />
+    <TaskOutput tasks={status} fallBackText="No tasks" style={{ flex: 1 }} />
   );
 };
 
-export default AllTasks;
+export default InProgress;
 
 const styles = StyleSheet.create({});
