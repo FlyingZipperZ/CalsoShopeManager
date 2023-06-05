@@ -1,4 +1,5 @@
-import { Button, Pressable, Text } from "react-native";
+import { useContext, useEffect, useState } from "react";
+
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,10 +12,14 @@ import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScre
 
 import TaskContextProvider from "./store/task-context";
 
+import LoginScreen from "./screens/Login/LoginScreen";
+import SignUpScreen from "./screens/Login/SignUpScreen";
+
 import AllTasks from "./screens/TaskStack/AllTasks";
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
 import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
 import ClockIOScreen from "./screens/ClockIO/ClockIOScreen";
@@ -260,22 +265,22 @@ function Root() {
 
   const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem("token");
+  // useEffect(() => {
+  //   async function fetchToken() {
+  //     const storedToken = await AsyncStorage.getItem("token");
 
-      if (storedToken) {
-        authCtx.authenticate(storedToken);
-      }
-      setIsTryingLogin(false);
-    }
+  //     if (storedToken) {
+  //       authCtx.authenticate(storedToken);
+  //     }
+  //     setIsTryingLogin(false);
+  //   }
 
-    fetchToken();
-  }, []);
+  //   fetchToken();
+  // }, []);
 
-  if (isTryingLogin) {
-    return null;
-  }
+  // if (isTryingLogin) {
+  //   return null;
+  // }
 
   return <Navigation />;
 }
