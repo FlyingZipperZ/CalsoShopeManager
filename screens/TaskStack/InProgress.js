@@ -6,21 +6,22 @@ import { fetchTasks } from "../../util/https";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
+import { AuthContext } from "../../store/auth-context";
 
 const InProgress = ({ title }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
 
   const tasksCtx = useContext(TaskContext);
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     async function getTasks() {
       setIsFetching(true);
       try {
-        const tasks = await fetchTasks();
+        const tasks = await fetchTasks(authCtx.token);
         tasksCtx.setTask(tasks);
       } catch (error) {
-        console.log("Unable to load tasks");
         setError("Unable to load tasks");
       }
       setIsFetching(false);

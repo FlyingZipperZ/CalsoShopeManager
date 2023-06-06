@@ -17,7 +17,7 @@ const Complete = ({ title }) => {
     async function getTasks() {
       setIsFetching(true);
       try {
-        const tasks = await fetchTasks();
+        const tasks = await fetchTasks(authCtx.token);
         tasksCtx.setTask(tasks);
       } catch (error) {
         setError("Unable to load tasks");

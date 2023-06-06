@@ -3,6 +3,7 @@ import { useState, useLayoutEffect, useContext } from "react";
 
 import TaskForm from "../../components/ManageTasks/TaskForm";
 import { deleteTask, updateTask } from "../../util/https";
+import { AuthContext } from "../../store/auth-context";
 import { TaskContext } from "../../store/task-context";
 import DeleteTaskIcon from "./DeleteTaskIcon";
 import AllTasks from "./Complete";
@@ -59,6 +60,7 @@ const EditTaskScreen = ({ route, navigation }) => {
   });
 
   const tasksCtx = useContext(TaskContext);
+  const authCtx = useContext(AuthContext);
 
   async function deleteHandler() {
     try {
@@ -71,7 +73,7 @@ const EditTaskScreen = ({ route, navigation }) => {
 
   async function confirmHandler(taskData) {
     try {
-      await updateTask(inputs.id.value, taskData);
+      await updateTask(inputs.id.value, taskData, token);
       tasksCtx.updateTask(inputs.id.value, taskData);
       navigation.navigate(AllTasks);
     } catch (error) {
