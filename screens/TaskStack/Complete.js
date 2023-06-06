@@ -32,9 +32,9 @@ const Complete = ({ title }) => {
     setError(null);
   }
 
-  if (error && !isFetching) {
-    return <ErrorOverlay />;
-  }
+  //   if (error && !isFetching) {
+  //     return <ErrorOverlay />;
+  //   }
 
   if (isFetching) {
     return <LoadingOverlay />;
@@ -43,10 +43,12 @@ const Complete = ({ title }) => {
   const status = [];
   status.push(tasksCtx.tasks.find((task) => task.status === "Installed"));
 
-  console.log(title);
-
   return (
-    <TaskOutput tasks={status} fallBackText="No tasks" style={{ flex: 1 }} />
+    <TaskOutput
+      tasks={tasksCtx.tasks}
+      fallBackText="No tasks"
+      style={{ flex: 1 }}
+    />
   );
 };
 

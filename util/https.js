@@ -8,6 +8,7 @@ export async function storeTask(taskData) {
 }
 
 export async function fetchTasks() {
+  console.log("Fetching");
   const response = await axios.get(BACKEND_URL + "task.json");
 
   const tasks = [];

@@ -12,12 +12,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles } from "./constants/styles";
 import IconButton from "./components/ui/IconButton";
 
+// Context provider
+import TaskContextProvider from "./store/task-context";
+import SaleContextProvider from "./store/sales-context";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+
 // Task Stack
 import InProgress from "./screens/TaskStack/InProgress";
 import Complete from "./screens/TaskStack/Complete";
 import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
-import TaskContextProvider from "./store/task-context";
-import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
@@ -31,7 +34,6 @@ import ClockIOScreen from "./screens/ClockIO/ClockIOScreen";
 // Settings Stack
 import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
 import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
-import SaleContextProvider from "./store/sales-context";
 import SalesPeople from "./screens/SettingsStack/SalesPeople";
 import EditSales from "./components/settings/SalesList/EditSales";
 import LoginScreen from "./screens/Login/LoginScreen";
@@ -291,7 +293,7 @@ function AuthenticatedStack() {
 
 // The main Root of the whole app in order to keep everything together
 function Root() {
-  const [isTryingLogin, setIsTryingLogin] = useState(true);
+  const [isTryingLogin, setIstryingLogin] = useState(true);
 
   const authCtx = useContext(AuthContext);
 
@@ -302,7 +304,7 @@ function Root() {
       if (storedToken) {
         authCtx.authenticate(storedToken);
       }
-      setIsTryingLogin(false);
+      setIstryingLogin(false);
     }
 
     fetchToken();

@@ -1559,10 +1559,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@react-native-async-storage/async-storage@^1.17.11":
-  version "1.17.11"
-  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.17.11.tgz"
-  integrity sha512-bzs45n5HNcDq6mxXnSsOHysZWn1SbbebNxldBXCQs8dSvF8Aor9KCdpm+TpnnGweK3R6diqsT8lFhX77VX0NFw==
+"@react-native-async-storage/async-storage@^1.18.1":
+  version "1.18.1"
+  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.18.1.tgz"
+  integrity sha512-70aFW8fVCKl+oA1AKPFDpE6s4t9pulj2QeLX+MabEmzfT3urd/3cckv45WJvtocdoIH/oXA3Y+YcCRJCcNa8mA==
   dependencies:
     merge-options "^3.0.4"
 
@@ -5858,7 +5858,7 @@ react-native-woodpicker@^0.3.17:
   resolved "https://registry.npmjs.org/react-native-woodpicker/-/react-native-woodpicker-0.3.17.tgz"
   integrity sha512-ImiFRx1aBbXlg0cRq0K22cse74632Paf+ddc3MTh+iVVkCqgCDO232otUncf/X+6g8Ht1NqjOIvmQUp8SgEnWg==
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.30.0", "react-native@>= 0.64.3", react-native@>=0.57, react-native@>=0.59, react-native@0.71.8:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", "react-native@>= 0.30.0", "react-native@>= 0.64.3", react-native@>=0.57, react-native@>=0.59, react-native@0.71.8:
   version "0.71.8"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.8.tgz"
   integrity sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g==
