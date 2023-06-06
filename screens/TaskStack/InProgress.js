@@ -34,9 +34,9 @@ const InProgress = ({ title }) => {
     setError(null);
   }
 
-  // if (error && !isFetching) {
-  //   return <ErrorOverlay />;
-  // }
+  if (error && !isFetching) {
+    return <ErrorOverlay />;
+  }
 
   if (isFetching) {
     return <LoadingOverlay />;

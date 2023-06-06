@@ -6,12 +6,13 @@ import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { storeTask, deleteTask } from "../../util/https";
 import { TaskContext } from "../../store/task-context";
-import taskAddHandler from "../../util/Task/taskAddHandler";
+import { AuthContext } from "../../store/auth-context";
 
 const AddTaskScreen = ({ route, navigation }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState();
   const taskCtx = useContext(TaskContext);
+  const authCtx = useContext(AuthContext);
 
   const editedTaskId = route.params?.taskId;
 
@@ -19,9 +20,8 @@ const AddTaskScreen = ({ route, navigation }) => {
 
   async function confirmHandler(taskData) {
     setIsSubmitting(true);
-    // taskAddHandler(taskData);
     try {
-      const id = await storeTask(taskData);
+      const id = await storeTask(taskData, token);
       taskCtx.addTask({ ...taskData, id: id });
       navigation.goBack();
     } catch (error) {

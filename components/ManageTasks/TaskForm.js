@@ -15,11 +15,13 @@ import ButtonForm from "../ui/Buttons/ButtonForm";
 import { Dropdown } from "react-native-element-dropdown";
 import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
+import { AuthContext } from "../../store/auth-context";
 
 // TaskForm called and used to submit a new task to the AllTasks page
 
 const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   const salesCtx = useContext(SalesContext);
+  const authCtx = useContext(AuthContext);
 
   const data = [];
 
@@ -27,7 +29,7 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
     async function getSales() {
       setIsFetching(true);
       try {
-        const sales = await fetchSales();
+        const sales = await fetchSales(authCtx.token);
         salesCtx.setSale(sales);
       } catch (error) {
         setError("Unable to load Sales");
