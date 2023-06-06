@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { TaskContext } from "../../store/task-context";
 import { fetchTasks } from "../../util/https";

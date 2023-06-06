@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import TaskItem from "../../components/TaskList/TaskItem";
 import { useContext, useState } from "react";
+
+import TaskItem from "../../components/TaskList/TaskItem";
 
 import { TaskContext } from "../../store/task-context";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";

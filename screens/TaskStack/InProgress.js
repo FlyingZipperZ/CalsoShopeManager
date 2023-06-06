@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { TaskContext } from "../../store/task-context";
 import { fetchTasks } from "../../util/https";
@@ -20,6 +20,7 @@ const InProgress = ({ title }) => {
         const tasks = await fetchTasks();
         tasksCtx.setTask(tasks);
       } catch (error) {
+        console.log("Unable to load tasks");
         setError("Unable to load tasks");
       }
       setIsFetching(false);

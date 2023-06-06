@@ -1,5 +1,5 @@
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useState } from "react";
+import { Alert } from "react-native";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../store/auth-context";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import AuthContent from "../../components/Auth/AuthContent";
@@ -25,7 +25,7 @@ const LoginScreen = () => {
   }
 
   if (isAuthenticating) {
-    return <LoadingOverlay message="Loggin you in..." />;
+    return <LoadingOverlay message="Logging you in..." />;
   }
 
   return <AuthContent isLogin onAuthenticate={loginHandler} />;

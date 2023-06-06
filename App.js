@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Navigation Stack
 import { NavigationContainer } from "@react-navigation/native";
@@ -23,7 +24,6 @@ import Complete from "./screens/TaskStack/Complete";
 
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
-import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
 
 // Calendar Stack
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
@@ -48,7 +48,6 @@ const Task = createNativeStackNavigator();
 const Calendar = createNativeStackNavigator();
 const Settings = createNativeStackNavigator();
 const Authentication = createNativeStackNavigator();
-// const AuthenticatedStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 
 const Tab = createMaterialTopTabNavigator();
@@ -250,7 +249,6 @@ function BottomTabsNavigator() {
 }
 
 function AuthStack() {
-  const authCtx = useContext(AuthContext);
   return (
     <Authentication.Navigator
       screenOptions={{
@@ -282,31 +280,6 @@ function AuthenticatedStack() {
   );
 }
 
-function Root() {
-  const [isTryingLogin, setIstryingLogin] = useState(true);
-
-  const authCtx = useContext(AuthContext);
-
-  // useEffect(() => {
-  //   async function fetchToken() {
-  //     const storedToken = await AsyncStorage.getItem("token");
-
-  //     if (storedToken) {
-  //       authCtx.authenticate(storedToken);
-  //     }
-  //     setIsTryingLogin(false);
-  //   }
-
-  //   fetchToken();
-  // }, []);
-
-  // if (isTryingLogin) {
-  //   return null;
-  // }
-
-  return <Navigation />;
-}
-
 function Navigation() {
   const authCtx = useContext(AuthContext);
   return (
@@ -317,6 +290,31 @@ function Navigation() {
       </NavigationContainer>
     </>
   );
+}
+
+function Root() {
+  const [isTryingLogin, setIstryingLogin] = useState(true);
+
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    async function fetchToken() {
+      const storedToken = await AsyncStorage.getItem("token");
+
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
+      }
+      setIstryingLogin(false);
+    }
+
+    fetchToken();
+  }, []);
+
+  if (isTryingLogin) {
+    return null;
+  }
+
+  return <Navigation />;
 }
 
 export default function App() {

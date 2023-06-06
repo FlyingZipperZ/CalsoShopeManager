@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import Input from "../../components/ManageTasks/Input";
 import ButtonForm from "../../components/ui/Buttons/ButtonForm";

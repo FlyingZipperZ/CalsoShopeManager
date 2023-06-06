@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useState, useLayoutEffect, useContext, useMemo } from "react";
+import { useState, useLayoutEffect, useContext } from "react";
 
 import TaskForm from "../../components/ManageTasks/TaskForm";
 import { deleteTask, updateTask } from "../../util/https";

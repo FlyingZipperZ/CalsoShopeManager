@@ -1,5 +1,5 @@
 import { StyleSheet, FlatList } from "react-native";
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TaskContext } from "../../store/task-context";
 

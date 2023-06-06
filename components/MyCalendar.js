@@ -1,6 +1,5 @@
 import { useState, useCallback, useContext } from "react";
 import { View, StyleSheet, FlatList, Text, ScrollView } from "react-native";
-import React from "react";
 
 import { Calendar } from "react-native-calendars";
 import { TASKS } from "../data/testData";

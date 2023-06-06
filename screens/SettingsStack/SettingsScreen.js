@@ -1,13 +1,15 @@
-import { StyleSheet, View } from "react-native";
-import { Alert } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
 import SettingButtons from "../../components/settings/SettingsButtons/SettingButtons";
 import LogoutButton from "../../components/settings/SettingsButtons/LogoutButton";
+import { useContext } from "react";
+import { AuthContext } from "../../store/auth-context";
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
+  const authCtx = useContext(AuthContext);
 
   function addHandler() {
     navigation.navigate("SalesPeople");
@@ -23,9 +25,10 @@ const SettingsScreen = () => {
       ]
     );
   }
+
   function logOutHandler() {
     Alert.alert("Logout?", "Are you sure you'd like to logout?", [
-      { text: "Logout" },
+      { text: "Logout", onPress: authCtx.logout },
       { text: "Cancel", style: "cancel" },
     ]);
   }

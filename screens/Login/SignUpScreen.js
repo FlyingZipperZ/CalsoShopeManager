@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../store/auth-context";
 import AuthContent from "../../components/Auth/AuthContent";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
@@ -25,7 +25,6 @@ const SignUpScreen = () => {
         "Could not create user, please check your input and try again later."
       );
     }
-
     setIsAuthenticating(false);
   }
 

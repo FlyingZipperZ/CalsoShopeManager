@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 
 import SalesList from "../../components/settings/SalesList/SalesList";
 import { SalesContext } from "../../store/sales-context";
