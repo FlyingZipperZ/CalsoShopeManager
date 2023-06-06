@@ -301,6 +301,7 @@ function Root() {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem("token");
 
+      console.log("something");
       if (storedToken) {
         authCtx.authenticate(storedToken);
       }
