@@ -12,7 +12,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { GlobalStyles } from "./constants/styles";
 import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
-import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScreen";
 
 import TaskContextProvider from "./store/task-context";
 import SaleContextProvider from "./store/sales-context";
@@ -21,9 +20,7 @@ import AuthContextProvider, { AuthContext } from "./store/auth-context";
 // Task Stack
 import InProgress from "./screens/TaskStack/InProgress";
 import Complete from "./screens/TaskStack/Complete";
-import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
 
-import AllTasks from "./screens/TaskStack/AllTasks";
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
 import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
@@ -39,10 +36,10 @@ import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
 import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
 import SalesPeople from "./screens/SettingsStack/SalesPeople";
 import EditSales from "./components/settings/SalesList/EditSales";
-import AuthContextProvider, { AuthContext } from "./store/auth-context";
-import { useContext, useEffect, useState } from "react";
+
 import LoginScreen from "./screens/Login/LoginScreen";
 import SignUpScreen from "./screens/Login/SignUpScreen";
+import IconButton from "./components/ui/IconButton";
 
 // sets up all the navigation stacks for each different part of the app
 // main stack is Bottom Tabs
