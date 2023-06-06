@@ -7,19 +7,25 @@ export async function storeSales(salesData) {
   return id;
 }
 
-export async function fetchSales() {
-  const response = await axios.get(BACKEND_URL + "sales.json");
-
+export async function fetchSales(token) {
   const sales = [];
 
-  for (const key in response.data) {
-    const saleObj = {
-      id: key,
-      name: response.data[key].name,
-      number: response.data[key].number,
-    };
-    sales.push(saleObj);
-  }
+  await axios.get(BACKEND_URL + "sales.json?auth=" + token).then(
+    (response) => {
+      for (const key in response.data) {
+        const saleObj = {
+          id: key,
+          name: response.data[key].name,
+          number: response.data[key].number,
+        };
+        sales.push(saleObj);
+      }
+    },
+    [token]
+  );
+
+  console.log(sales);
+
   return sales;
 }
 

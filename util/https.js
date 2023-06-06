@@ -1,8 +1,11 @@
 import axios from "axios";
 import { BACKEND_URL } from "./backend";
 
-export async function storeTask(taskData) {
-  const response = await axios.post(BACKEND_URL + "task.json", taskData);
+export async function storeTask(taskData, token) {
+  const response = await axios.post(
+    BACKEND_URL + "task.json?auth=" + token,
+    taskData
+  );
   const id = response.data.name;
   return id;
 }
@@ -12,7 +15,6 @@ export async function fetchTasks(token) {
 
   await axios.get(BACKEND_URL + "task.json?auth=" + token).then(
     (response) => {
-      console.log("fetched");
       for (const key in response.data) {
         const taskObj = {
           id: key,
@@ -33,10 +35,12 @@ export async function fetchTasks(token) {
   return tasks;
 }
 
-export function updateTask(id, taskData, token) {
-  return axios.put(BACKEND_URL + `task/${id}.json?auth=${token}`, taskData);
+export async function updateTask(id, taskData, token) {
+  return axios.put(BACKEND_URL + `task/${id}.json`, taskData, token);
 }
 
-export function deleteTask(id) {
-  return axios.delete(BACKEND_URL + `task/${id}.json`);
+export async function deleteTask(id, token) {
+  return axios
+    .delete(BACKEND_URL + `task/${id}.json?auth=${token}`)
+    .then(() => {});
 }

@@ -8,6 +8,7 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import Button from "../../components/ui/Buttons/Button";
 import IconButton from "../../components/ui/IconButton";
+import { AuthContext } from "../../store/auth-context";
 
 const SalesPeople = ({ navigation }) => {
   const [isFetching, setIsFetching] = useState(true);
@@ -31,17 +32,20 @@ const SalesPeople = ({ navigation }) => {
     );
   });
 
+  const authCtx = useContext(AuthContext);
+
   useEffect(() => {
     async function getSales() {
       setIsFetching(true);
       try {
-        const sales = await fetchSales();
+        const sales = await fetchSales(authCtx.token);
         salesCtx.setSale(sales);
       } catch (error) {
         setError("Unable to load Sales");
       }
       setIsFetching(false);
     }
+
     getSales();
   }, []);
 
