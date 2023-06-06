@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+
 import { StatusBar } from "expo-status-bar";
 
 // Navigation Stack
@@ -8,11 +9,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GlobalStyles } from "./constants/styles";
-import IconButton from "./components/ui/IconButton";
 
-// Context provider
+import { GlobalStyles } from "./constants/styles";
+import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
+import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScreen";
+
 import TaskContextProvider from "./store/task-context";
 import SaleContextProvider from "./store/sales-context";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
@@ -22,8 +23,10 @@ import InProgress from "./screens/TaskStack/InProgress";
 import Complete from "./screens/TaskStack/Complete";
 import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
 
+import AllTasks from "./screens/TaskStack/AllTasks";
 import AddTaskScreen from "./screens/TaskStack/AddTaskScreen";
 import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
+import EditTaskScreenOld from "./screens/TaskStack/EditTaskScreenOld";
 
 // Calendar Stack
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
@@ -36,6 +39,8 @@ import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
 import AddSalesPeople from "./screens/SettingsStack/AddSalesPeople";
 import SalesPeople from "./screens/SettingsStack/SalesPeople";
 import EditSales from "./components/settings/SalesList/EditSales";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import { useContext, useEffect, useState } from "react";
 import LoginScreen from "./screens/Login/LoginScreen";
 import SignUpScreen from "./screens/Login/SignUpScreen";
 
@@ -46,6 +51,7 @@ const Task = createNativeStackNavigator();
 const Calendar = createNativeStackNavigator();
 const Settings = createNativeStackNavigator();
 const Authentication = createNativeStackNavigator();
+// const AuthenticatedStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 
 const Tab = createMaterialTopTabNavigator();
@@ -187,8 +193,6 @@ function SettingNavigator() {
   );
 }
 
-// ButtonTabsNavigator the main navigation for the app that keeps the
-// app together and brings everything into 1
 function BottomTabsNavigator() {
   return (
     <TaskContextProvider>
@@ -198,7 +202,6 @@ function BottomTabsNavigator() {
             headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
           }}
         >
-          {/* TaskStack which holds the TaskNavigator to keep everything together */}
           <BottomTabs.Screen
             name="TaskStack"
             component={TaskNavigator}
@@ -210,7 +213,6 @@ function BottomTabsNavigator() {
               ),
             }}
           />
-          {/* CalenderStack which holds the CalendarNavigator */}
           <BottomTabs.Screen
             name="CalendarStack"
             component={CalendarNavigator}
@@ -222,7 +224,6 @@ function BottomTabsNavigator() {
               ),
             }}
           />
-          {/* ClockIOScreen which needs to be seen still */}
           <BottomTabs.Screen
             name="ClockIOScreen"
             component={ClockIOScreen}
@@ -234,7 +235,6 @@ function BottomTabsNavigator() {
               ),
             }}
           />
-          {/* SettingsNavigator which holds the SettingNavigator with all the buttons */}
           <BottomTabs.Screen
             name="Settings"
             component={SettingNavigator}
@@ -252,7 +252,6 @@ function BottomTabsNavigator() {
   );
 }
 
-// AuthStack which holds the login and sign up pages in order to bring everything together
 function AuthStack() {
   const authCtx = useContext(AuthContext);
   return (
@@ -261,20 +260,15 @@ function AuthStack() {
         headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
       }}
     >
-      {/* Login screen */}
       <Authentication.Screen name="Login" component={LoginScreen} />
-      {/* SignUp screen */}
-      <Authentication.Screen
-        name="Signup"
-        component={SignUpScreen}
-        options={{ title: "Sign Up" }}
-      />
+      <Authentication.Screen name="Signup" component={SignUpScreen} />
     </Authentication.Navigator>
   );
 }
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -291,35 +285,31 @@ function AuthenticatedStack() {
   );
 }
 
-// The main Root of the whole app in order to keep everything together
 function Root() {
   const [isTryingLogin, setIstryingLogin] = useState(true);
 
   const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem("token");
+  // useEffect(() => {
+  //   async function fetchToken() {
+  //     const storedToken = await AsyncStorage.getItem("token");
 
-      console.log("something");
-      if (storedToken) {
-        authCtx.authenticate(storedToken);
-      }
-      setIstryingLogin(false);
-    }
+  //     if (storedToken) {
+  //       authCtx.authenticate(storedToken);
+  //     }
+  //     setIsTryingLogin(false);
+  //   }
 
-    fetchToken();
-  }, []);
+  //   fetchToken();
+  // }, []);
 
-  if (isTryingLogin) {
-    return null;
-  }
+  // if (isTryingLogin) {
+  //   return null;
+  // }
 
   return <Navigation />;
 }
 
-// this is the part of the app that seperates
-// the authenticated and the non authenticated part of the app
 function Navigation() {
   const authCtx = useContext(AuthContext);
   return (
