@@ -6,6 +6,7 @@ import Input from "../ManageTasks/Input";
 import ButtonForm from "../ui/Buttons/ButtonForm";
 import { SalesContext } from "../../store/sales-context";
 import { updateSales } from "../../util/sales";
+import { AuthContext } from "../../store/auth-context";
 
 const SalesForm = ({ defaultValues }) => {
   const navigation = useNavigation();
@@ -35,6 +36,7 @@ const SalesForm = ({ defaultValues }) => {
   }
 
   const salesCtx = useContext(SalesContext);
+  const authCtx = useContext(AuthContext);
 
   async function confirmHandler() {
     const salesData = {
@@ -56,7 +58,7 @@ const SalesForm = ({ defaultValues }) => {
     }
 
     try {
-      await updateSales(inputs.id.value, salesData);
+      await updateSales(inputs.id.value, salesData, authCtx.token);
       salesCtx.updateSales(inputs.id.value, salesData);
     } catch (error) {
       console.log("Error updating");

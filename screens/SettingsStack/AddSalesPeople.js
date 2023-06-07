@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
-import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { useContext, useState } from "react";
 
 import Input from "../../components/ManageTasks/Input";
 import ButtonForm from "../../components/ui/Buttons/ButtonForm";
 import { storeSales } from "../../util/sales";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
+import { AuthContext } from "../../store/auth-context";
 
 const AddSalesPeople = ({ navigation, salesCtx }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState();
+
+  const authCtx = useContext(AuthContext);
 
   function cancelHandler() {
     navigation.goBack();
@@ -61,7 +64,7 @@ const AddSalesPeople = ({ navigation, salesCtx }) => {
 
     setIsSubmitting(true);
     try {
-      const id = await storeSales(saleData);
+      const id = await storeSales(saleData, authCtx.token);
       salesCtx.addSales({ ...saleData, id: id });
       navigation.goBack();
     } catch (error) {

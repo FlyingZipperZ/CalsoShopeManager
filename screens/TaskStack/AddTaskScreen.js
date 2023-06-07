@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import TaskForm from "../../components/ManageTasks/TaskForm";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import { storeTask, deleteTask } from "../../util/https";
+import { storeTask } from "../../util/https";
 import { TaskContext } from "../../store/task-context";
 import { AuthContext } from "../../store/auth-context";
 
@@ -21,7 +21,7 @@ const AddTaskScreen = ({ route, navigation }) => {
   async function confirmHandler(taskData) {
     setIsSubmitting(true);
     try {
-      const id = await storeTask(taskData, token);
+      const id = await storeTask(taskData, authCtx.token);
       taskCtx.addTask({ ...taskData, id: id });
       navigation.goBack();
     } catch (error) {

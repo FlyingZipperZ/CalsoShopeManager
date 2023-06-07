@@ -45,8 +45,6 @@ const InProgress = ({ title }) => {
   const status = [];
   status.push(tasksCtx.tasks.find((task) => task.status !== "Installed"));
 
-  console.log(tasksCtx.tasks);
-
   return (
     <TaskOutput
       tasks={tasksCtx.tasks}

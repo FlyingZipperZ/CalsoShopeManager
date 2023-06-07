@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { fetchSales } from "../../../util/sales";
 import { SalesContext } from "../../../store/sales-context";
+import { AuthContext } from "../../../store/auth-context";
 
 const SalesList = ({ sales }) => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ const SalesList = ({ sales }) => {
   const [error, setError] = useState();
 
   const salesCtx = useContext(SalesContext);
+  const authCtx = useContext(AuthContext);
 
   return (
     <FlatList
@@ -38,7 +40,7 @@ const SalesList = ({ sales }) => {
         async function getSales() {
           setRefreshing(true);
           try {
-            const sales = await fetchSales();
+            const sales = await fetchSales(authCtx.token);
             salesCtx.setSale(sales);
           } catch (error) {
             setError("Unable to refresh sales");

@@ -6,6 +6,7 @@ import { SalesContext } from "../../../store/sales-context";
 import DeleteTaskIcon from "../../../screens/TaskStack/DeleteTaskIcon";
 import { deleteSales } from "../../../util/sales";
 import SalesPeople from "../../../screens/SettingsStack/SalesPeople";
+import { AuthContext } from "../../../store/auth-context";
 
 const EditSales = ({ route }) => {
   const [error, setError] = useState();
@@ -13,12 +14,13 @@ const EditSales = ({ route }) => {
   const salesId = route.params?.salesId;
 
   const salesCtx = useContext(SalesContext);
+  const authCtx = useContext(AuthContext);
 
   const selectedSales = salesCtx.sales.find((sale) => sale.id === salesId);
 
   async function deleteHandler() {
     try {
-      await deleteSales(salesId);
+      await deleteSales(salesId, authCtx.token);
       salesCtx.deleteSales(salesId);
     } catch (error) {
       setError("Cannot delete try again later!");
@@ -26,7 +28,6 @@ const EditSales = ({ route }) => {
   }
   return (
     <View>
-      <Text>EditSales</Text>
       <SalesForm defaultValues={selectedSales} />
       <View style={styles.trash}>
         <DeleteTaskIcon
