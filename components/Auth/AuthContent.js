@@ -29,31 +29,32 @@ function AuthContent({ isLogin, onAuthenticate }) {
 
   // handles the submit buttons (Log In/Sign Up)
   function submitHandler(credentials) {
-    let { email, confirmEmail, password, confirmPassword } = credentials;
+    let { user, email, confirmEmail, password, confirmPassword } = credentials;
 
     email = email.trim();
     password = password.trim();
 
+    const userIsValid = user;
     const emailIsValid = email.includes("@");
     const passwordIsValid = password.length > 6;
-    const emailsAreEqual = email === confirmEmail;
     const passwordsAreEqual = password === confirmPassword;
 
     if (
+      !userIsValid ||
       !emailIsValid ||
       !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
+      (!isLogin && !passwordsAreEqual)
     ) {
       Alert.alert("Invalid input", "Please check your entered credentials.");
       setCredentialsInvalid({
         email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
+        confirmEmail: !emailIsValid,
         password: !passwordIsValid,
         confirmPassword: !passwordIsValid || !passwordsAreEqual,
       });
       return;
     }
-    onAuthenticate({ email, password });
+    onAuthenticate({ user, email, password });
   }
 
   return (

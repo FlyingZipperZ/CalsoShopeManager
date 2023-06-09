@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TaskContext } from "../../store/task-context";
 
 import TaskTile from "../../components/TaskTile";
-import { fetchTasks } from "../../util/https";
+import { fetchTasks } from "../../util/tasks";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import { AuthContext } from "../../store/auth-context";
 

@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { TaskContext } from "../../store/task-context";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import { updateTask } from "../../util/https";
+import { updateTask } from "../../util/tasks";
 
 const CalendarOverviewScreen = ({ route, navigation }) => {
   const taskId = route.params?.taskId;

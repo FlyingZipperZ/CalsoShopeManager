@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useState, useLayoutEffect, useContext } from "react";
 
 import TaskForm from "../../components/ManageTasks/TaskForm";
-import { deleteTask, updateTask } from "../../util/https";
+import { deleteTask, updateTask } from "../../util/tasks";
 import { AuthContext } from "../../store/auth-context";
 import { TaskContext } from "../../store/task-context";
 import DeleteTaskIcon from "./DeleteTaskIcon";

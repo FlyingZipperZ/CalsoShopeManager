@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { storeTask } from "../https";
+import { storeTask } from "../tasks";
 
 const taskUpdateHandler = ({}) => {
   async function confirmHandler(taskData) {

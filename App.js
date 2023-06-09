@@ -189,15 +189,19 @@ function SettingNavigator() {
   );
 }
 
+// Bottom Navigation which houses the whole app
 function BottomTabsNavigator() {
   return (
+    // TaskContextProvider which allows the whole app to see the task contexts from firebase
     <TaskContextProvider>
+      {/* SaleContextProvider which allows the whole app to see the sales contexts from firebase */}
       <SaleContextProvider>
         <BottomTabs.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
           }}
         >
+          {/* TaskNavigator holds TaskStack and more */}
           <BottomTabs.Screen
             name="TaskStack"
             component={TaskNavigator}
@@ -209,6 +213,7 @@ function BottomTabsNavigator() {
               ),
             }}
           />
+          {/* CalendarNavigator holds the CalenderStack */}
           <BottomTabs.Screen
             name="CalendarStack"
             component={CalendarNavigator}
@@ -220,6 +225,7 @@ function BottomTabsNavigator() {
               ),
             }}
           />
+          {/* ClockIOScreen holds the ClockStack */}
           <BottomTabs.Screen
             name="ClockIOScreen"
             component={ClockIOScreen}
@@ -231,6 +237,7 @@ function BottomTabsNavigator() {
               ),
             }}
           />
+          {/* SettingsNavigator holds SettingsStack */}
           <BottomTabs.Screen
             name="Settings"
             component={SettingNavigator}
@@ -248,6 +255,8 @@ function BottomTabsNavigator() {
   );
 }
 
+// AuthStack holds the unauthenticated stack
+// login and sign up screens
 function AuthStack() {
   return (
     <Authentication.Navigator

@@ -6,7 +6,7 @@ import TaskItem from "../../components/TaskList/TaskItem";
 import { TaskContext } from "../../store/task-context";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import { updateTask } from "../../util/https";
+import { updateTask } from "../../util/tasks";
 import { AuthContext } from "../../store/auth-context";
 
 const TaskOverviewScreen = ({ route, navigation }) => {

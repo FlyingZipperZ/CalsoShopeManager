@@ -14,7 +14,6 @@ import { Dropdown } from "react-native-element-dropdown";
 import { useNavigation } from "@react-navigation/native";
 import call from "react-native-phone-call";
 
-import { fetchTasks } from "../../util/https";
 import Input from "../ManageTasks/Input";
 import ButtonForm from "../ui/Buttons/ButtonForm";
 

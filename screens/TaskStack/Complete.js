@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { useContext, useEffect, useState } from "react";
 
 import { TaskContext } from "../../store/task-context";
-import { fetchTasks } from "../../util/https";
+import { fetchTasks } from "../../util/tasks";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
