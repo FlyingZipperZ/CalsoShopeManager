@@ -15,7 +15,6 @@ const SalesPeople = ({ navigation }) => {
   const [error, setError] = useState();
 
   const salesCtx = useContext(SalesContext);
-  const authCtx = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions(
@@ -33,6 +32,8 @@ const SalesPeople = ({ navigation }) => {
     );
   });
 
+  const authCtx = useContext(AuthContext);
+
   useEffect(() => {
     async function getSales() {
       setIsFetching(true);
@@ -44,12 +45,13 @@ const SalesPeople = ({ navigation }) => {
       }
       setIsFetching(false);
     }
+
     getSales();
   }, []);
 
-  // if (error && isFetching) {
-  //   return <ErrorOverlay />;
-  // }
+  //   if (error && !isFetching) {
+  //     return <ErrorOverlay />;
+  //   }
 
   if (isFetching) {
     return <LoadingOverlay />;

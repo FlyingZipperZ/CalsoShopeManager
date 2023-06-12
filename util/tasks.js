@@ -39,6 +39,8 @@ export async function updateTask(id, taskData, token) {
   return axios.put(BACKEND_URL + `task/${id}.json?auth=${token}`, taskData);
 }
 
-export function deleteTask(id, token) {
-  return axios.delete(BACKEND_URL + `task/${id}.json=${token}`);
+export async function deleteTask(id, token) {
+  return axios
+    .delete(BACKEND_URL + `task/${id}.json?auth=${token}`)
+    .then(() => {});
 }

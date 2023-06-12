@@ -6,7 +6,6 @@ import { TaskContext } from "../../store/task-context";
 import TaskTile from "../../components/TaskTile";
 import { fetchTasks } from "../../util/tasks";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
-import { AuthContext } from "../../store/auth-context";
 
 const TaskListOverView = ({ tasks }) => {
   const navigation = useNavigation();
@@ -28,7 +27,6 @@ const TaskListOverView = ({ tasks }) => {
   }
 
   const tasksCtx = useContext(TaskContext);
-  const authCtx = useContext(AuthContext);
 
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState();
@@ -47,7 +45,7 @@ const TaskListOverView = ({ tasks }) => {
         async function getTasks() {
           setRefreshing(true);
           try {
-            const tasks = await fetchTasks(authCtx.token);
+            const tasks = await fetchTasks();
             tasksCtx.setTask(tasks);
           } catch (error) {
             setError("Unable to refresh tasks");
