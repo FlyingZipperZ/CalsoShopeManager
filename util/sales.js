@@ -29,10 +29,10 @@ export async function fetchSales(token) {
   return sales;
 }
 
-export function updateSales(id, salesData) {
-  return axios.put(BACKEND_URL + `sales/${id}.json`, salesData);
+export function updateSales(id, salesData, token) {
+  return axios.put(BACKEND_URL + `sales/${id}.json?auth=${token}`, salesData);
 }
 
-export function deleteSales(id) {
-  return axios.delete(BACKEND_URL + `sales/${id}.json`);
+export function deleteSales(id, token) {
+  return axios.delete(BACKEND_URL + `sales/${id}.json?auth=${token}`);
 }
