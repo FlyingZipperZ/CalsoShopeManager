@@ -17,6 +17,7 @@ import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
 import TaskContextProvider from "./store/task-context";
 import SaleContextProvider from "./store/sales-context";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import UserContextProvider from "./store/user-context";
 
 // Task Stack
 import InProgress from "./screens/TaskStack/InProgress";
@@ -192,66 +193,69 @@ function SettingNavigator() {
 // Bottom Navigation which houses the whole app
 function BottomTabsNavigator() {
   return (
-    // TaskContextProvider which allows the whole app to see the task contexts from firebase
-    <TaskContextProvider>
-      {/* SaleContextProvider which allows the whole app to see the sales contexts from firebase */}
-      <SaleContextProvider>
-        <BottomTabs.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
-          }}
-        >
-          {/* TaskNavigator holds TaskStack and more */}
-          <BottomTabs.Screen
-            name="TaskStack"
-            component={TaskNavigator}
-            options={{
-              title: "In progress",
-              headerShown: false,
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="layers" size={size} color={color} />
-              ),
+    <>
+      {/* TaskContextProvider which allows the whole app to see the task contexts
+      from firebase */}
+      <TaskContextProvider>
+        {/* SaleContextProvider which allows the whole app to see the sales contexts from firebase */}
+        <SaleContextProvider>
+          <BottomTabs.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: GlobalStyles.colors.topBar },
             }}
-          />
-          {/* CalendarNavigator holds the CalenderStack */}
-          <BottomTabs.Screen
-            name="CalendarStack"
-            component={CalendarNavigator}
-            options={{
-              title: "Calendar",
-              headerShown: false,
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="calendar" size={size} color={color} />
-              ),
-            }}
-          />
-          {/* ClockIOScreen holds the ClockStack */}
-          <BottomTabs.Screen
-            name="ClockIOScreen"
-            component={ClockIOScreen}
-            options={{
-              title: "Clock IO",
-              // headerShown: false,
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="power" size={size} color={color} />
-              ),
-            }}
-          />
-          {/* SettingsNavigator holds SettingsStack */}
-          <BottomTabs.Screen
-            name="Settings"
-            component={SettingNavigator}
-            options={{
-              title: "Settings",
-              headerShown: false,
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="cog" size={size} color={color} />
-              ),
-            }}
-          />
-        </BottomTabs.Navigator>
-      </SaleContextProvider>
-    </TaskContextProvider>
+          >
+            {/* TaskNavigator holds TaskStack and more */}
+            <BottomTabs.Screen
+              name="TaskStack"
+              component={TaskNavigator}
+              options={{
+                title: "In progress",
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="layers" size={size} color={color} />
+                ),
+              }}
+            />
+            {/* CalendarNavigator holds the CalenderStack */}
+            <BottomTabs.Screen
+              name="CalendarStack"
+              component={CalendarNavigator}
+              options={{
+                title: "Calendar",
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="calendar" size={size} color={color} />
+                ),
+              }}
+            />
+            {/* ClockIOScreen holds the ClockStack */}
+            <BottomTabs.Screen
+              name="ClockIOScreen"
+              component={ClockIOScreen}
+              options={{
+                title: "Clock IO",
+                // headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="power" size={size} color={color} />
+                ),
+              }}
+            />
+            {/* SettingsNavigator holds SettingsStack */}
+            <BottomTabs.Screen
+              name="Settings"
+              component={SettingNavigator}
+              options={{
+                title: "Settings",
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="cog" size={size} color={color} />
+                ),
+              }}
+            />
+          </BottomTabs.Navigator>
+        </SaleContextProvider>
+      </TaskContextProvider>
+    </>
   );
 }
 
@@ -331,7 +335,9 @@ export default function App() {
     <>
       <StatusBar style="auto" />
       <AuthContextProvider>
-        <Root />
+        <UserContextProvider>
+          <Root />
+        </UserContextProvider>
       </AuthContextProvider>
     </>
   );

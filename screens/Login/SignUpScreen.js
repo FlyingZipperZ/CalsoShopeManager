@@ -4,6 +4,8 @@ import AuthContent from "../../components/Auth/AuthContent";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { Alert } from "react-native";
 import { createUser } from "../../util/auth";
+import { storeUserName } from "../../util/users";
+import { UserContext, logedIn, loggedOut } from "../../store/user-context";
 
 // Sign up screen
 // takes email and password from sign up form (AuthContent)
@@ -13,13 +15,27 @@ const SignUpScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
-  async function signupHandeler({ email, password }) {
+  async function signupHandeler({ userName, email, password }) {
     setIsAuthenticating(true);
     try {
       const token = await createUser(email, password);
       authCtx.authenticate(token);
+
+      const user = {
+        name: userName,
+        email: email,
+      };
+
+      await storeUserName(user, token);
+      userCtx.logedIn(user.name, user.email);
+
+      console.log(authCtx.token);
+      console.log(userCtx.userName);
+      console.log(userCtx.email);
     } catch (error) {
+      console.log(error);
       Alert.alert(
         "Authentication failed",
         "Could not create user, please check your input and try again later."

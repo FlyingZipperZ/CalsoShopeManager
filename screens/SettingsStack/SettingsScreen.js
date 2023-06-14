@@ -6,10 +6,12 @@ import SettingButtons from "../../components/settings/SettingsButtons/SettingBut
 import LogoutButton from "../../components/settings/SettingsButtons/LogoutButton";
 import { useContext } from "react";
 import { AuthContext } from "../../store/auth-context";
+import { UserContext } from "../../store/user-context";
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   function addHandler() {
     navigation.navigate("SalesPeople");
@@ -24,6 +26,11 @@ const SettingsScreen = () => {
         { text: "Cancel", style: "cancel" },
       ]
     );
+  }
+
+  function logout() {
+    // userCtx.deleteUser();
+    authCtx.logout;
   }
 
   function logOutHandler() {

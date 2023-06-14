@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "./backend";
 
-export async function storeUser(userData, token) {
+export async function storeUserName(userData, token) {
   const response = await axios.post(
     BACKEND_URL + "user.json?auth=" + token,
     userData
@@ -10,7 +10,7 @@ export async function storeUser(userData, token) {
   return id;
 }
 
-export async function fetchUser(token) {
+export async function fetchUserName(token) {
   const users = [];
 
   await axios.get(BACKEND_URL + "user.json?auth=" + token).then((response) => {
@@ -26,10 +26,10 @@ export async function fetchUser(token) {
   return users;
 }
 
-export function updateUser(id, userData, token) {
+export function updateUserName(id, userData, token) {
   return axios.put(BACKEND_URL + `user/${id}.json?auth=${token}`, userData);
 }
 
-export function deleteUser(id) {
+export function deleteUserName(id) {
   return axios.delete(BACKEND_URL + `user/${id}.json?auth=${token}`);
 }

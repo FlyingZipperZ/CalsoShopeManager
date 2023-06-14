@@ -7,17 +7,20 @@ import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
 import { AuthContext } from "../../store/auth-context";
+import { UserContext } from "../../store/user-context";
 
-const InProgress = ({ title }) => {
+const InProgress = () => {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
 
   const tasksCtx = useContext(TaskContext);
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     async function getTasks() {
       setIsFetching(true);
+      console.log(userCtx.userName);
       try {
         const tasks = await fetchTasks(authCtx.token);
         tasksCtx.setTask(tasks);
@@ -47,7 +50,7 @@ const InProgress = ({ title }) => {
   status.push(tasksCtx.tasks.find((task) => task.status !== "Installed"));
   // console.log(status);
 
-  console.log(tasksCtx.tasks);
+  // console.log(tasksCtx.tasks);
 
   return (
     <TaskOutput

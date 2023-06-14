@@ -21,7 +21,6 @@ const CalendarOverviewScreen = ({ route, navigation }) => {
     setIsSubmitting(true);
     try {
       tasksCtx.updateTask(taskId, taskData);
-      console.log(taskData);
       await updateTask(taskId, taskData);
       navigation.goBack();
     } catch (error) {

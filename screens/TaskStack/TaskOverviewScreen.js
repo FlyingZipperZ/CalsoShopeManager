@@ -24,7 +24,6 @@ const TaskOverviewScreen = ({ route, navigation }) => {
     setIsSubmitting(true);
     try {
       tasksCtx.updateTask(taskId, taskData);
-      console.log(taskData);
       await updateTask(taskId, taskData, authCtx.token);
       navigation.goBack();
     } catch (error) {

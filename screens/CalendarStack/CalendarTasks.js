@@ -3,7 +3,6 @@ import TaskTile from "../../components/TaskTile";
 import { TASKS } from "../../data/testData";
 
 const CalendarTasks = ({ navigation }) => {
-  console.log("idk where we are");
   function renderTaskItem(itemData) {
     function pressHandler() {
       navigation.navigate("CalendarOverviewScreen", {

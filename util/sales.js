@@ -24,7 +24,7 @@ export async function fetchSales(token) {
     [token]
   );
 
-  console.log(sales);
+  // console.log(sales);
 
   return sales;
 }

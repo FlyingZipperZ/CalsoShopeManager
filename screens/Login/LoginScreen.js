@@ -4,17 +4,20 @@ import { AuthContext } from "../../store/auth-context";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import AuthContent from "../../components/Auth/AuthContent";
 import { login } from "../../util/auth";
+import { UserContext } from "../../store/user-context";
 
 const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   async function loginHandler({ email, password }) {
     setIsAuthenticating(true);
     try {
       const token = await login(email, password);
       authCtx.authenticate(token);
+      // userCtx.logedIn(email)
     } catch (error) {
       Alert.alert(
         "Authentication failed",
