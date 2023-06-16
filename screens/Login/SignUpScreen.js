@@ -5,7 +5,7 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { Alert } from "react-native";
 import { createUser } from "../../util/auth";
 import { storeUserName } from "../../util/users";
-import { UserContext, logedIn, loggedOut } from "../../store/user-context";
+import { UserContext } from "../../store/user-context";
 
 // Sign up screen
 // takes email and password from sign up form (AuthContent)
@@ -30,10 +30,6 @@ const SignUpScreen = () => {
 
       await storeUserName(user, token);
       userCtx.logedIn(user.name, user.email);
-
-      console.log(authCtx.token);
-      console.log(userCtx.userName);
-      console.log(userCtx.email);
     } catch (error) {
       console.log(error);
       Alert.alert(

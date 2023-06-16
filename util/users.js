@@ -18,6 +18,7 @@ export async function fetchUserName(token) {
       const userObj = {
         id: key,
         name: response.data[key].name,
+        email: response.data[key].email,
       };
       users.push(userObj);
     }

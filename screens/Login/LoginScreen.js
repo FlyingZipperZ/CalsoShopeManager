@@ -5,6 +5,7 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import AuthContent from "../../components/Auth/AuthContent";
 import { login } from "../../util/auth";
 import { UserContext } from "../../store/user-context";
+import { fetchUserName } from "../../util/users";
 
 const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -17,6 +18,12 @@ const LoginScreen = () => {
     try {
       const token = await login(email, password);
       authCtx.authenticate(token);
+
+      const users = await fetchUserName(token);
+
+      console.log("Find");
+      console.log(users.find((findEmail) => email === findEmail));
+
       // userCtx.logedIn(email)
     } catch (error) {
       Alert.alert(

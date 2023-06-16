@@ -15,7 +15,7 @@ function UserContextProvider({ children }) {
   function logedIn(userName, email) {
     setUser(userName);
     setEmail(email);
-    AsyncStorage.setItem("userName", userName);
+    AsyncStorage.setItem("user", userName);
     AsyncStorage.setItem("email", email);
   }
 

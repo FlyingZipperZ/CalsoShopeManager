@@ -20,7 +20,8 @@ const InProgress = () => {
   useEffect(() => {
     async function getTasks() {
       setIsFetching(true);
-      console.log(userCtx.userName);
+      // console.log(authCtx.token);
+      // console.log(userCtx.userName);
       try {
         const tasks = await fetchTasks(authCtx.token);
         tasksCtx.setTask(tasks);
@@ -32,6 +33,10 @@ const InProgress = () => {
 
     getTasks();
   }, []);
+
+  // console.log("User");
+  // console.log(userCtx.userName);
+  // console.log(userCtx.email);
 
   function errorHandler() {
     setError(null);

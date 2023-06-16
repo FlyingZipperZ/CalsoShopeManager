@@ -72,6 +72,14 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
       value: defaultValues ? defaultValues.location : "",
       isValid: true,
     },
+    updateDate: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
+    userUpdate: {
+      value: defaultValues ? defaultValues.userUpdate : "",
+      isValid: true,
+    },
   });
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
