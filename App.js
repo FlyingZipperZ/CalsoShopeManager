@@ -17,7 +17,7 @@ import TaskOverviewScreen from "./screens/TaskStack/TaskOverviewScreen";
 import TaskContextProvider from "./store/task-context";
 import SaleContextProvider from "./store/sales-context";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
-import UserContextProvider from "./store/user-context";
+import UserContextProvider, { UserContext } from "./store/user-context";
 
 // Task Stack
 import InProgress from "./screens/TaskStack/InProgress";
@@ -309,14 +309,21 @@ function Root() {
   const [isTryingLogin, setIstryingLogin] = useState(true);
 
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem("token");
+      const storedUser = await AsyncStorage.getItem("user");
+      const storedEmail = await AsyncStorage.getItem("email");
 
       if (storedToken) {
         authCtx.authenticate(storedToken);
       }
+      if (storedUser) {
+        userCtx.logedIn(storedUser, storedEmail);
+      }
+
       setIstryingLogin(false);
     }
 

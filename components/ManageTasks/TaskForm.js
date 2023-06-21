@@ -16,12 +16,14 @@ import { Dropdown } from "react-native-element-dropdown";
 import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
 import { AuthContext } from "../../store/auth-context";
+import { UserContext } from "../../store/user-context";
 
 // TaskForm called and used to submit a new task to the AllTasks page
 
 const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   const salesCtx = useContext(SalesContext);
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   const data = [];
 
@@ -42,6 +44,18 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   for (let content of salesCtx.sales) {
     data.push({ label: content.name, value: content.number });
   }
+
+  var day = new Date().getDate(); //To get the Current Date
+  var month = new Date().getMonth() + 1; //To get the Current Month
+  var year = new Date().getFullYear(); //To get the Current Year
+  var hours = new Date().getHours(); //To get the Current Hours
+  var min = new Date().getMinutes(); //To get the Current Minutes
+  var sec = new Date().getSeconds(); //To get the Current Seconds
+
+  var dateCurrent =
+    month + "/" + day + "/" + year + " " + hours + ":" + min + ":" + sec;
+
+  // console.log(dateCurrent);
 
   const [inputs, setInputs] = useState({
     name: {
@@ -116,6 +130,8 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
       number: saleNumberState,
       notes: inputs.notes.value,
       location: inputs.location.value,
+      updateDate: dateCurrent,
+      userUpdate: userCtx.user,
     };
 
     const nameIsValid = taskData.name.trim().length > 0;
@@ -135,6 +151,8 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
             value: curInputs.location.value,
             isValid: locationIsValid,
           },
+          updateDate: { value: curInputs.notes, isValid: true },
+          userUpdate: { value: curInputs.notes, isValid: true },
         };
       });
       return;

@@ -44,8 +44,12 @@ const EditTaskScreen = ({ route, navigation }) => {
       value: defaultValues ? defaultValues.location : "",
       isValid: true,
     },
-    user: {
-      value: defaultValues ? defaultValues.user : "",
+    updateDate: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
+    userUpdate: {
+      value: defaultValues ? defaultValues.userUpdate : "",
       isValid: true,
     },
   });

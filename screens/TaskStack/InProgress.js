@@ -19,8 +19,9 @@ const InProgress = () => {
   const userCtx = useContext(UserContext);
 
   // console.log(authCtx.token);
-  console.log(userCtx.user);
-  console.log(userCtx.email);
+  // console.log(userCtx.user);
+  // console.log(userCtx.email);
+  // console.log(new Date().getDate());
 
   useEffect(() => {
     async function getTasks() {
