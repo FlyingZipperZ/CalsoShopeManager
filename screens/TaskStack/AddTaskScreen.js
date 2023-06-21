@@ -23,7 +23,7 @@ const AddTaskScreen = ({ route, navigation }) => {
   async function confirmHandler(taskData) {
     setIsSubmitting(true);
     try {
-      const id = await storeTask(taskData, token);
+      const id = await storeTask(taskData, authCtx.token);
       taskCtx.addTask({ ...taskData, id: id });
       navigation.goBack();
     } catch (error) {

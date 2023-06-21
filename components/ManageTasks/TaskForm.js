@@ -139,6 +139,7 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
     const locationIsValid = taskData.location.trim().length > 0;
 
     if (!nameIsValid || !dateIsValid || !locationIsValid) {
+      console.log(locationIsValid);
       setInputs((curInputs) => {
         return {
           name: { value: curInputs.name.value, isValid: nameIsValid },
@@ -151,8 +152,8 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
             value: curInputs.location.value,
             isValid: locationIsValid,
           },
-          updateDate: { value: curInputs.notes, isValid: true },
-          userUpdate: { value: curInputs.notes, isValid: true },
+          updateDate: { value: dateCurrent, isValid: true },
+          userUpdate: { value: userCtx.user, isValid: true },
         };
       });
       return;

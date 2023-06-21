@@ -10,13 +10,24 @@ export const TaskContext = createContext({
     number,
     notes,
     location,
-    user,
+    updateDate,
+    userUpdate,
   }) => {},
   setTask: (tasks) => {},
   deleteTask: (id) => {},
   updateTask: (
     id,
-    { name, status, dueDate, sales, number, notes, location }
+    {
+      name,
+      status,
+      dueDate,
+      sales,
+      number,
+      notes,
+      location,
+      updateDate,
+      userUpdate,
+    }
   ) => {},
 });
 

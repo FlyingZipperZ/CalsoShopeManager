@@ -25,6 +25,8 @@ export async function fetchTasks(token) {
           number: response.data[key].number,
           notes: response.data[key].notes,
           location: response.data[key].location,
+          updateDate: response.data[key].updateDate,
+          userUpdate: response.data[key].userUpdate,
         };
         tasks.push(taskObj);
       }

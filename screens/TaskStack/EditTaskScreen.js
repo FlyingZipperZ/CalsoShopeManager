@@ -72,20 +72,21 @@ const EditTaskScreen = ({ route, navigation }) => {
 
   async function deleteHandler() {
     try {
-      await deleteTask(inputs.id.value);
+      console.log(inputs.id.value);
+      await deleteTask(inputs.id.value, authCtx.token);
       tasksCtx.deleteTask(inputs.id.value);
     } catch (error) {
-      setError("Cannot delete try again later!");
+      // setError("Cannot delete try again later!");
     }
   }
 
   async function confirmHandler(taskData) {
     try {
-      await updateTask(inputs.id.value, taskData, token);
+      await updateTask(inputs.id.value, taskData, authCtx.token);
       tasksCtx.updateTask(inputs.id.value, taskData);
       navigation.navigate(AllTasks);
     } catch (error) {
-      setError("Could not save Data try again later");
+      // setError("Could not save Data try again later");
     }
   }
 
