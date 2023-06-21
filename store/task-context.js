@@ -2,7 +2,16 @@ import { createContext, useReducer } from "react";
 
 export const TaskContext = createContext({
   tasks: [],
-  addTask: ({ name, status, dueDate, sales, number, notes, location }) => {},
+  addTask: ({
+    name,
+    status,
+    dueDate,
+    sales,
+    number,
+    notes,
+    location,
+    user,
+  }) => {},
   setTask: (tasks) => {},
   deleteTask: (id) => {},
   updateTask: (

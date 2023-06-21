@@ -44,6 +44,10 @@ const EditTaskScreen = ({ route, navigation }) => {
       value: defaultValues ? defaultValues.location : "",
       isValid: true,
     },
+    user: {
+      value: defaultValues ? defaultValues.user : "",
+      isValid: true,
+    },
   });
 
   useLayoutEffect(() => {

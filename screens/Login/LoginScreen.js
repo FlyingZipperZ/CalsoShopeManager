@@ -17,14 +17,14 @@ const LoginScreen = () => {
     setIsAuthenticating(true);
     try {
       const token = await login(email, password);
-      authCtx.authenticate(token);
-
       const users = await fetchUserName(token);
 
-      console.log("Find");
-      console.log(users.find((findEmail) => email === findEmail));
+      const user = users.find((femail) => femail.email === email);
+      console.log(user.name);
+      console.log(user.email);
+      authCtx.authenticate(token);
 
-      // userCtx.logedIn(email)
+      userCtx.logedIn(user.name, user.email);
     } catch (error) {
       Alert.alert(
         "Authentication failed",

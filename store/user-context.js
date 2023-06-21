@@ -2,32 +2,32 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState } from "react";
 
 export const UserContext = createContext({
-  userName: "",
+  user: "",
   email: "",
-  logedIn: (userName, email) => {},
+  logedIn: ({ user, email }) => {},
   loggedOut: () => {},
 });
 
 function UserContextProvider({ children }) {
-  const [user, setUser] = useState();
+  const [userName, setuserName] = useState();
   const [email, setEmail] = useState();
 
-  function logedIn(userName, email) {
-    setUser(userName);
+  function logedIn(user, email) {
+    setuserName(user);
     setEmail(email);
-    AsyncStorage.setItem("user", userName);
+    AsyncStorage.setItem("user", user);
     AsyncStorage.setItem("email", email);
   }
 
   function loggedOut() {
-    setUser(null);
+    setuserName(null);
     setEmail(null);
-    AsyncStorage.removeItem("userName");
+    AsyncStorage.removeItem("user");
     AsyncStorage.removeItem("email");
   }
 
   const value = {
-    userName: user,
+    user: userName,
     email: email,
     logedIn: logedIn,
     loggedOut: loggedOut,

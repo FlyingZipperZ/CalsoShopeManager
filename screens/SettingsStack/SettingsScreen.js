@@ -28,14 +28,21 @@ const SettingsScreen = () => {
     );
   }
 
-  function logout() {
-    // userCtx.deleteUser();
-    authCtx.logout;
-  }
+  const logoutHandler = () => {
+    userCtx.loggedOut();
+    authCtx.logout();
+    // console.log("logout");
+  };
 
   function logOutHandler() {
     Alert.alert("Logout?", "Are you sure you'd like to logout?", [
-      { text: "Logout", onPress: authCtx.logout },
+      {
+        text: "Logout",
+        onPress: () => {
+          logoutHandler();
+        },
+        style: "destructive",
+      },
       { text: "Cancel", style: "cancel" },
     ]);
   }

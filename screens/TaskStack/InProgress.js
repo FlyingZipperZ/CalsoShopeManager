@@ -8,6 +8,7 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
 import { AuthContext } from "../../store/auth-context";
 import { UserContext } from "../../store/user-context";
+import { fetchUserName } from "../../util/users";
 
 const InProgress = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -17,11 +18,13 @@ const InProgress = () => {
   const authCtx = useContext(AuthContext);
   const userCtx = useContext(UserContext);
 
+  // console.log(authCtx.token);
+  console.log(userCtx.user);
+  console.log(userCtx.email);
+
   useEffect(() => {
     async function getTasks() {
       setIsFetching(true);
-      // console.log(authCtx.token);
-      // console.log(userCtx.userName);
       try {
         const tasks = await fetchTasks(authCtx.token);
         tasksCtx.setTask(tasks);
@@ -33,10 +36,6 @@ const InProgress = () => {
 
     getTasks();
   }, []);
-
-  // console.log("User");
-  // console.log(userCtx.userName);
-  // console.log(userCtx.email);
 
   function errorHandler() {
     setError(null);
