@@ -86,6 +86,10 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
       value: defaultValues ? defaultValues.location : "",
       isValid: true,
     },
+    dateCreated: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
     updateDate: {
       value: defaultValues ? defaultValues.updateDate : "",
       isValid: true,
@@ -152,6 +156,7 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
             value: curInputs.location.value,
             isValid: locationIsValid,
           },
+          dateCreated: { value: dateCurrent, isValid: true },
           updateDate: { value: dateCurrent, isValid: true },
           userUpdate: { value: userCtx.user, isValid: true },
         };

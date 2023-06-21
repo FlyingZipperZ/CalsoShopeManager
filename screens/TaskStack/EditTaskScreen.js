@@ -72,7 +72,6 @@ const EditTaskScreen = ({ route, navigation }) => {
 
   async function deleteHandler() {
     try {
-      console.log(inputs.id.value);
       await deleteTask(inputs.id.value, authCtx.token);
       tasksCtx.deleteTask(inputs.id.value);
     } catch (error) {

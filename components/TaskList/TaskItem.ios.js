@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useState, useLayoutEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,6 +16,7 @@ import call from "react-native-phone-call";
 
 import Input from "../ManageTasks/Input";
 import ButtonForm from "../ui/Buttons/ButtonForm";
+import { UserContext } from "../../store/user-context";
 
 const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
   const createThreeButtonAlert = () =>
@@ -52,6 +53,18 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
     },
     location: {
       value: defaultValues ? defaultValues.location : "",
+      isValid: true,
+    },
+    dateCreated: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
+    updateDate: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
+    userUpdate: {
+      value: defaultValues ? defaultValues.userUpdate : "",
       isValid: true,
     },
   });
@@ -96,6 +109,18 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
     );
   });
 
+  var day = new Date().getDate(); //To get the Current Date
+  var month = new Date().getMonth() + 1; //To get the Current Month
+  var year = new Date().getFullYear(); //To get the Current Year
+  var hours = new Date().getHours(); //To get the Current Hours
+  var min = new Date().getMinutes(); //To get the Current Minutes
+  var sec = new Date().getSeconds(); //To get the Current Seconds
+
+  var dateCurrent =
+    month + "/" + day + "/" + year + " " + hours + ":" + min + ":" + sec;
+
+  const userCtx = useContext(UserContext);
+
   async function submitHandler() {
     const taskData = {
       name: inputs.name.value,
@@ -103,8 +128,10 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
       dueDate: inputs.dueDate.value,
       sales: inputs.sales.value,
       number: inputs.number.value,
-      location: inputs.location.value,
       notes: inputs.notes.value,
+      location: inputs.location.value,
+      updateDate: dateCurrent,
+      userUpdate: userCtx.user,
     };
 
     setInputs((curInputs) => {
@@ -133,6 +160,18 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
         notes: {
           value: curInputs.notes.value,
           isValid: curInputs.notes.isValid,
+        },
+        dateCreated: {
+          value: curInputs.dateCreated.value,
+          isValid: curInputs.dateCreated.isValid,
+        },
+        updateDate: {
+          value: taskData.updateDate,
+          isValid: curInputs.updateDate.isValid,
+        },
+        userUpdate: {
+          value: taskData.userUpdate,
+          isValid: curInputs.userUpdate.isValid,
         },
       };
     });
