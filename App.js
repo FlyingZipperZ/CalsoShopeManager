@@ -41,6 +41,7 @@ import EditSales from "./components/settings/SalesList/EditSales";
 import LoginScreen from "./screens/Login/LoginScreen";
 import SignUpScreen from "./screens/Login/SignUpScreen";
 import IconButton from "./components/ui/IconButton";
+import ClockContextProvider from "./store/clock-context";
 
 // sets up all the navigation stacks for each different part of the app
 // main stack is Bottom Tabs
@@ -351,7 +352,9 @@ export default function App() {
       <StatusBar style="auto" />
       <AuthContextProvider>
         <UserContextProvider>
-          <Root />
+          <ClockContextProvider>
+            <Root />
+          </ClockContextProvider>
         </UserContextProvider>
       </AuthContextProvider>
     </>

@@ -5,8 +5,6 @@ import SalesList from "../../components/settings/SalesList/SalesList";
 import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import ErrorOverlay from "../../components/ui/ErrorOverlay";
-import Button from "../../components/ui/Buttons/Button";
 import IconButton from "../../components/ui/IconButton";
 import { AuthContext } from "../../store/auth-context";
 
