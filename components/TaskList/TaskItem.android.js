@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import { createOpenLink } from "react-native-open-maps";
 import TaskCompleteTracker from "./TaskCompleteTracker";
 import { Dropdown } from "react-native-element-dropdown";
-import ButtonUI from "../ui/Buttons/Button";
 import Input from "../ManageTasks/Input";
+import ButtonForm from "../ui/Buttons/ButtonForm";
 
 const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
   const [inputs, setInputs] = useState({
@@ -34,6 +34,18 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
     },
     location: {
       value: defaultValues ? defaultValues.location : "",
+      isValid: true,
+    },
+    dateCreated: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
+    updateDate: {
+      value: defaultValues ? defaultValues.updateDate : "",
+      isValid: true,
+    },
+    userUpdate: {
+      value: defaultValues ? defaultValues.userUpdate : "",
       isValid: true,
     },
   });
@@ -70,8 +82,10 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
       dueDate: inputs.dueDate.value,
       sales: inputs.sales.value,
       number: inputs.number.value,
-      location: inputs.location.value,
       notes: inputs.notes.value,
+      location: inputs.location.value,
+      updateDate: dateCurrent,
+      userUpdate: userCtx.user,
     };
 
     setInputs((curInputs) => {
@@ -101,6 +115,18 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
           value: curInputs.notes.value,
           isValid: curInputs.notes.isValid,
         },
+        dateCreated: {
+          value: curInputs.dateCreated.value,
+          isValid: curInputs.dateCreated.isValid,
+        },
+        updateDate: {
+          value: taskData.updateDate,
+          isValid: curInputs.updateDate.isValid,
+        },
+        userUpdate: {
+          value: taskData.userUpdate,
+          isValid: curInputs.userUpdate.isValid,
+        },
       };
     });
 
@@ -117,7 +143,9 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
           <Text style={styles.text}>Due Date: {inputs.dueDate.value}</Text>
           <Text style={styles.text}>Status: {taskState}</Text>
           <TaskCompleteTracker status={taskState} />
-          <Button title={inputs.location.value} onPress={openMapGoogle} />
+          <View style={styles.taskStatus}>
+            <Button title={inputs.location.value} onPress={openMapGoogle} />
+          </View>
         </View>
       </View>
       <Input
@@ -143,13 +171,14 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
           }}
         />
       </View>
-      <View style={styles.buttons}>
-        <ButtonUI style={styles.button} onPress={cancelHandler}>
-          Cancel
-        </ButtonUI>
-        <ButtonUI style={styles.button} onPress={submitHandler}>
-          Update
-        </ButtonUI>
+      <ButtonForm
+        leftLabel={"Cancel"}
+        rightLabel={"Update"}
+        submitHandler={submitHandler}
+        cancelHandler={cancelHandler}
+      />
+      <View style={styles.updateText}>
+        <Text>Last updated by: {inputs.userUpdate.value}</Text>
       </View>
     </ScrollView>
   );
@@ -167,7 +196,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     fontSize: 18,
-    margin: 8,
+    margin: 6,
   },
   dropDownContainer: {
     backgroundColor: "white",
@@ -177,14 +206,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
-  buttons: {
-    marginTop: 24,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+  taskStatus: {
+    marginTop: 8,
   },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
+  updateText: {
+    flex: 1,
+    padding: 30,
+    // justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -261,6 +261,9 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}
       />
+      <View style={styles.updateText}>
+        <Text>Last updated by: {inputs.userUpdate.value}</Text>
+      </View>
     </ScrollView>
   );
 };
@@ -303,5 +306,11 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+  updateText: {
+    flex: 1,
+    padding: 30,
+    // justifyContent: "center",
+    alignItems: "center",
   },
 });
