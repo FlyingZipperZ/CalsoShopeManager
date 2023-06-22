@@ -6,12 +6,14 @@ import { fetchTasks } from "../../util/tasks";
 import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
+import { AuthContext } from "../../store/auth-context";
 
 const Complete = ({ title }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
 
   const tasksCtx = useContext(TaskContext);
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     async function getTasks() {
@@ -41,15 +43,19 @@ const Complete = ({ title }) => {
   }
 
   const status = [];
-  status.push(tasksCtx.tasks.find((task) => task.status === "Installed"));
+  status.push(tasksCtx.tasks.filter((task) => task.status === "Installed"));
 
-  return (
-    <TaskOutput
-      tasks={tasksCtx.tasks}
-      fallBackText="No tasks"
-      style={{ flex: 1 }}
-    />
-  );
+  if (status === undefined) {
+    return <TaskOutput tasks={0} fallBackText="No tasks" style={{ flex: 1 }} />;
+  } else {
+    return (
+      <TaskOutput
+        tasks={status[0]}
+        fallBackText="No tasks"
+        style={{ flex: 1 }}
+      />
+    );
+  }
 };
 
 export default Complete;

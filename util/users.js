@@ -19,6 +19,7 @@ export async function fetchUserName(token) {
         id: key,
         name: response.data[key].name,
         email: response.data[key].email,
+        eStatus: response.data[key].eStatus,
       };
       users.push(userObj);
     }

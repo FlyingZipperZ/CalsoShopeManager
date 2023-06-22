@@ -22,9 +22,10 @@ const LoginScreen = () => {
       const user = users.find((femail) => femail.email === email);
       console.log(user.name);
       console.log(user.email);
+      console.log(user.eStatus);
       authCtx.authenticate(token);
 
-      userCtx.logedIn(user.name, user.email);
+      userCtx.logedIn(user.name, user.email, user.eStatus);
     } catch (error) {
       Alert.alert(
         "Authentication failed",

@@ -62,6 +62,20 @@ function MyTabs() {
   );
 }
 
+function adding(tintColor) {
+  const userCtx = useContext(UserContext);
+  if (userCtx.eStatus === "Admin") {
+    return (
+      <IconButton
+        icon="add"
+        size={24}
+        color={tintColor}
+        onPress={"AddTaskScreen"}
+      />
+    );
+  }
+}
+
 // Task navigator responsable for the task stack
 // showing the task stack with every job in on the database
 function TaskNavigator() {
@@ -77,14 +91,7 @@ function TaskNavigator() {
         component={MyTabs}
         options={{
           title: "Task Screen",
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon="add"
-              size={24}
-              color={tintColor}
-              onPress={"AddTaskScreen"}
-            />
-          ),
+          headerRight: ({ tintColor }) => adding(tintColor),
         }}
       />
       {/* TaskOverViewScreen shows the details of the job in question after tapping
@@ -316,12 +323,13 @@ function Root() {
       const storedToken = await AsyncStorage.getItem("token");
       const storedUser = await AsyncStorage.getItem("user");
       const storedEmail = await AsyncStorage.getItem("email");
+      const storedEStatus = await AsyncStorage.getItem("eStatus");
 
       if (storedToken) {
         authCtx.authenticate(storedToken);
       }
       if (storedUser) {
-        userCtx.logedIn(storedUser, storedEmail);
+        userCtx.logedIn(storedUser, storedEmail, storedEStatus);
       }
 
       setIstryingLogin(false);

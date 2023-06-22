@@ -49,7 +49,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
       <View>
         {!isLogin && (
           <Input
-            label="User Name"
+            label="Name"
             onUpdateValue={updateInputValueHandler.bind(this, "userName")}
             value={enteredUser}
             isInvalid={userNameInvalid}

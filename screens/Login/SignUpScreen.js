@@ -26,10 +26,11 @@ const SignUpScreen = () => {
       const user = {
         name: userName,
         email: email,
+        eStatus: "Employee",
       };
 
       await storeUserName(user, token);
-      userCtx.logedIn(user.name, user.email);
+      userCtx.logedIn(user.name, user.email, user.eStatus);
     } catch (error) {
       console.log(error);
       Alert.alert(

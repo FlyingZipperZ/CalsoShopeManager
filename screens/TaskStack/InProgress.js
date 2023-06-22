@@ -18,11 +18,6 @@ const InProgress = () => {
   const authCtx = useContext(AuthContext);
   const userCtx = useContext(UserContext);
 
-  // console.log(authCtx.token);
-  // console.log(userCtx.user);
-  // console.log(userCtx.email);
-  // console.log(new Date().getDate());
-
   useEffect(() => {
     async function getTasks() {
       setIsFetching(true);
@@ -51,19 +46,19 @@ const InProgress = () => {
   }
 
   const status = [];
-  // for ()
-  status.push(tasksCtx.tasks.find((task) => task.status !== "Installed"));
-  // console.log(status);
+  status.push(tasksCtx.tasks.filter((task) => task.status !== "Installed"));
 
-  // console.log(tasksCtx.tasks);
-
-  return (
-    <TaskOutput
-      tasks={tasksCtx.tasks}
-      fallBackText="No tasks"
-      style={{ flex: 1 }}
-    />
-  );
+  if (status === undefined) {
+    return <TaskOutput tasks={0} fallBackText="No tasks" style={{ flex: 1 }} />;
+  } else {
+    return (
+      <TaskOutput
+        tasks={status[0]}
+        fallBackText="No tasks"
+        style={{ flex: 1 }}
+      />
+    );
+  }
 };
 
 export default InProgress;
