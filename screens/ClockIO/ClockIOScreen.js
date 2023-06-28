@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View, Text, FlatList } from "react-native";
 import ClockIO from "../../components/ClockIOComponents/ClockIO";
 import { currentDate, currentTime, getNow } from "../../components/Date";
 import { storeClock, fetchClock, updateClock } from "../../util/clock";
@@ -9,13 +9,71 @@ import { UserContext } from "../../store/user-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ClockIOScreen = () => {
-  function clockIn() {
-    console.log("Clock in");
+  const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
+  const clockCtx = useContext(ClockContext);
+
+  const clockData = {
+    user: userCtx.user,
+    clockInDate: currentDate(),
+    clockInTime: currentTime(),
+    clockOutDate: "",
+    clockOutTime: "",
+  };
+
+  async function clockIn() {
+    try {
+      const storedClockId = await AsyncStorage.getItem("clockId");
+
+      if (storedClockId === null) {
+        const id = await storeClock(clockData, authCtx.token);
+        clockCtx.clockInHandler(id);
+      } else {
+        Alert.alert("Already Clocked In", "You are already clocked In", [
+          { text: "Okay" },
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  function clockOut() {
-    console.log("Clock out");
+  async function clockOut() {
+    try {
+      const storedClockId = await AsyncStorage.getItem("clockId");
+
+      if (storedClockId !== null) {
+        const clockIO = (await fetchClock(authCtx.token)).find(
+          (userClock) => userClock.id === storedClockId
+        );
+
+        const clockData = {
+          user: userCtx.user,
+          clockInDate: clockIO.clockInDate,
+          clockInTime: clockIO.clockInTime,
+          clockOutDate: currentDate(),
+          clockOutTime: currentTime(),
+        };
+        await updateClock(storedClockId, clockData, authCtx.token);
+        clockCtx.clockOutHandler();
+      } else {
+        Alert.alert("Already Clocked Out", "You are already clocked Out", [
+          { text: "Okay" },
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Already Clocked Out", "You are already clocked Out", [
+        { text: "Okay" },
+      ]);
+    }
   }
+
+  const ClockInItem = ({ clockInTime }) => (
+    <View style={styles.items}>
+      <Text style={styles.title}>{clockInTime}</Text>
+    </View>
+  );
 
   return (
     <>
@@ -48,4 +106,33 @@ const ClockIOScreen = () => {
 
 export default ClockIOScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  buttons: {
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  date: {
+    alignItems: "center",
+  },
+  excelContainer: {
+    alignItems: "center",
+  },
+  excel: {
+    flexDirection: "row",
+  },
+  checkList: {
+    paddingHorizontal: 50,
+    marginTop: 10,
+    backgroundColor: "#dfdfdf",
+    borderWidth: 1,
+  },
+  items: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+});

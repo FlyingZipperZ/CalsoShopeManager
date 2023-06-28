@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   innerContainer: {
+    padding: 8,
     borderRadius: 8,
     overflow: "hidden",
   },

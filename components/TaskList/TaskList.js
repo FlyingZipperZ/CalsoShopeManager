@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import React from "react";
 
 import TaskSummery from "../TaskOutput/TaskSummery";

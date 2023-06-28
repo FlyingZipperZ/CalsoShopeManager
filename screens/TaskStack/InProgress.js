@@ -45,13 +45,18 @@ const InProgress = () => {
     return <LoadingOverlay />;
   }
 
-  const status = tasksCtx.tasks.filter((task) => task.status !== "Installed");
+  const status = [];
+  status.push(tasksCtx.tasks.filter((task) => task.status !== "Installed"));
 
   if (status === undefined) {
     return <TaskOutput tasks={0} fallBackText="No tasks" style={{ flex: 1 }} />;
   } else {
     return (
-      <TaskOutput tasks={status} fallBackText="No tasks" style={{ flex: 1 }} />
+      <TaskOutput
+        tasks={status[0]}
+        fallBackText="No tasks"
+        style={{ flex: 1 }}
+      />
     );
   }
 };
