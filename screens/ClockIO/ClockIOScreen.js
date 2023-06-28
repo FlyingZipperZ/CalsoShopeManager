@@ -2,7 +2,7 @@ import { Alert, StyleSheet, View, Text, FlatList } from "react-native";
 import ClockIO from "../../components/ClockIOComponents/ClockIO";
 import { currentDate, currentTime, getNow } from "../../components/Date";
 import { storeClock, fetchClock, updateClock } from "../../util/clock";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../store/auth-context";
 import { ClockContext } from "../../store/clock-context";
 import { UserContext } from "../../store/user-context";
@@ -56,6 +56,7 @@ const ClockIOScreen = () => {
         };
         await updateClock(storedClockId, clockData, authCtx.token);
         clockCtx.clockOutHandler();
+        console.log(clockCtx.clockOut[0]);
       } else {
         Alert.alert("Already Clocked Out", "You are already clocked Out", [
           { text: "Okay" },
@@ -68,16 +69,6 @@ const ClockIOScreen = () => {
       ]);
     }
   }
-
-  async function getClockTime() {
-    let time = [];
-    const times = await fetchClock(authCtx.token);
-    time = times;
-    // console.log(time);
-    return time;
-  }
-
-  console.log(getClockTime());
 
   const ClockInItem = ({ clockInTime }) => (
     <View style={styles.items}>
@@ -101,13 +92,16 @@ const ClockIOScreen = () => {
       <View style={styles.excelContainer}>
         <View style={styles.excel}>
           <View style={styles.checkList}>
-            {/* <FlatList
-              data={getClockTime()}
-              keyExtractor={({ clock }) => clock.id}
+            <Text>{clockCtx.clockIn}</Text>
+            <FlatList
+              data={clockCtx.clockIn}
+              // keyExtractor={({ clock }) => clock.id}
               renderItem={({ item }) => <ClockInItem clockInTime={item.user} />}
-            /> */}
+            />
           </View>
-          <View style={styles.checkList}></View>
+          <View style={styles.checkList}>
+            <Text>{clockCtx.clockOut}</Text>
+          </View>
         </View>
       </View>
     </>
@@ -137,10 +131,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   items: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    // backgroundColor: "#f9c2ff",
+    // padding: 20,
+    // marginVertical: 8,
+    // marginHorizontal: 16,
   },
   title: {
     fontSize: 32,
