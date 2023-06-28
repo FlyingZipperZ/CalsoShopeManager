@@ -7,6 +7,8 @@ import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import TaskOutput from "../../components/TaskOutput/TaskOutput";
 import { AuthContext } from "../../store/auth-context";
+import { UserContext } from "../../store/user-context";
+import { fetchUserName } from "../../util/users";
 
 const InProgress = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -14,6 +16,7 @@ const InProgress = () => {
 
   const tasksCtx = useContext(TaskContext);
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     async function getTasks() {

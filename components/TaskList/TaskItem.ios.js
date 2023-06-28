@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
   updateText: {
     flex: 1,
     padding: 30,
+    // justifyContent: "center",
     alignItems: "center",
   },
 });

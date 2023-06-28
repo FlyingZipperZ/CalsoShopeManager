@@ -3,7 +3,7 @@ import React from "react";
 
 const ClockIO = ({ children, onPress }) => {
   return (
-    <View style={styles.button}>
+    <View style={styles.mealItem}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
@@ -22,10 +22,9 @@ const ClockIO = ({ children, onPress }) => {
 export default ClockIO;
 
 const styles = StyleSheet.create({
-  button: {
-    marginVertical: 60,
-    marginHorizontal: 20,
-    padding: 10,
+  mealItem: {
+    marginVertical: 110,
+    marginHorizontal: 30,
     borderRadius: 50,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
     backgroundColor: "green",
