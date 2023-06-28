@@ -18,6 +18,7 @@ import TaskContextProvider from "./store/task-context";
 import SaleContextProvider from "./store/sales-context";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import UserContextProvider, { UserContext } from "./store/user-context";
+import ClockContextProvider from "./store/clock-context";
 
 // Task Stack
 import InProgress from "./screens/TaskStack/InProgress";
@@ -351,7 +352,9 @@ export default function App() {
       <StatusBar style="auto" />
       <AuthContextProvider>
         <UserContextProvider>
-          <Root />
+          <ClockContextProvider>
+            <Root />
+          </ClockContextProvider>
         </UserContextProvider>
       </AuthContextProvider>
     </>
