@@ -13,12 +13,19 @@ import Input from "../../constants/Input";
 import { currentDate } from "../Date";
 import { UserContext } from "../../store/user-context";
 import ButtonForm from "../ui/Buttons/ButtonForm";
+import LoadingOverlay from "../ui/LoadingOverlay";
+import { storeTimeOff } from "../../util/timeoff";
+import { AuthContext } from "../../store/auth-context";
+import { TimeOffContext } from "../../store/timeoff-context";
 
 const TimeOffForm = ({ onCancel }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(currentDate());
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const authCtx = useContext(AuthContext);
   const userCtx = useContext(UserContext);
+  const timeOffCtx = useContext(TimeOffContext);
 
   const [inputs, setInputs] = useState({
     user: { value: userCtx.user, isValid: true },
@@ -46,8 +53,29 @@ const TimeOffForm = ({ onCancel }) => {
     }
   }
 
-  function submitHandler() {
-    console.log("Submit");
+  console.log(inputs.reason.value);
+  console.log(getDate(date));
+
+  async function submitHandler() {
+    const timeOffData = {
+      user: inputs.user.value,
+      reason: inputs.reason.value,
+      date: getDate(date),
+    };
+
+    setIsSubmitting(true);
+    try {
+      const id = await storeTimeOff(timeOffData, authCtx.token);
+      timeOffCtx.addTimeOff({ ...timeOffData, id: id });
+      onCancel();
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false);
+    }
+  }
+
+  if (isSubmitting) {
+    return <LoadingOverlay />;
   }
 
   return (
@@ -83,7 +111,6 @@ const TimeOffForm = ({ onCancel }) => {
           <Text style={styles.textStyle}>Select Date</Text>
         </Pressable>
       </View>
-      {/* <Input label="Date" value={getDate(date)} /> */}
       <TextInput
         value={getDate(date)}
         style={styles.input}

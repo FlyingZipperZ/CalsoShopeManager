@@ -17,10 +17,13 @@ import { SalesContext } from "../../store/sales-context";
 import { fetchSales } from "../../util/sales";
 import { AuthContext } from "../../store/auth-context";
 import { UserContext } from "../../store/user-context";
+import { currentDate, currentTime } from "../Date";
 
 // TaskForm called and used to submit a new task to the AllTasks page
 
 const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
+  const [isFetching, setIsFetching] = useState(false);
+
   const salesCtx = useContext(SalesContext);
   const authCtx = useContext(AuthContext);
   const userCtx = useContext(UserContext);
@@ -44,18 +47,6 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   for (let content of salesCtx.sales) {
     data.push({ label: content.name, value: content.number });
   }
-
-  var day = new Date().getDate(); //To get the Current Date
-  var month = new Date().getMonth() + 1; //To get the Current Month
-  var year = new Date().getFullYear(); //To get the Current Year
-  var hours = new Date().getHours(); //To get the Current Hours
-  var min = new Date().getMinutes(); //To get the Current Minutes
-  var sec = new Date().getSeconds(); //To get the Current Seconds
-
-  var dateCurrent =
-    month + "/" + day + "/" + year + " " + hours + ":" + min + ":" + sec;
-
-  // console.log(dateCurrent);
 
   const [inputs, setInputs] = useState({
     name: {
@@ -120,6 +111,8 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
     }
   }
 
+  const dateCurrent = currentDate() + " " + currentTime();
+
   const [salePersonState, setSalePersonState] = useState(inputs.sales.value);
   const [saleNumberState, setSaleNumberState] = useState(inputs.number.value);
 
@@ -174,7 +167,7 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
     !inputs.location.isValid;
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
+
   const [error, setError] = useState();
   const [date, setDate] = useState(inputs.dueDate.value);
 
