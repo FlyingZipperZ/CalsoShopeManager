@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import Input from "../ManageTasks/Input";
+import Input from "../../constants/Input";
 import ButtonForm from "../ui/Buttons/ButtonForm";
 import { SalesContext } from "../../store/sales-context";
 import { updateSales } from "../../util/sales";

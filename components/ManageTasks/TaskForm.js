@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import DatePicker from "react-native-modern-datepicker";
 
-import Input from "./Input";
+import Input from "../../constants/Input";
 import ButtonForm from "../ui/Buttons/ButtonForm";
 import { Dropdown } from "react-native-element-dropdown";
 import { SalesContext } from "../../store/sales-context";
@@ -109,8 +109,6 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
     });
   }
 
-  const [date, setDate] = useState(inputs.dueDate.value);
-
   function getDate(date) {
     if (inputs.dueDate.value === date) {
       return date;
@@ -178,6 +176,7 @@ const TaskForm = ({ onCancel, onSubmit, defaultValues }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState();
+  const [date, setDate] = useState(inputs.dueDate.value);
 
   return (
     <ScrollView style={styles.container}>

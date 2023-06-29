@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
 
-import Input from "../../components/ManageTasks/Input";
+import Input from "../../constants/Input";
 import ButtonForm from "../../components/ui/Buttons/ButtonForm";
 import { storeSales } from "../../util/sales";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";

@@ -2,15 +2,15 @@ import { useState, useCallback, useContext } from "react";
 import { View, StyleSheet, FlatList, Text, ScrollView } from "react-native";
 
 import { Calendar } from "react-native-calendars";
-import { TASKS } from "../data/testData";
+import { TASKS } from "../../data/testData";
 import moment from "moment";
-import TaskTile from "./TaskTile";
+import TaskTile from "../TaskTile";
 
 const _format = "YYYY-MM-DD";
 const _today = moment().format(_format);
 
 import { useNavigation } from "@react-navigation/native";
-import { TaskContext } from "../store/task-context";
+import { TaskContext } from "../../store/task-context";
 
 const MyCalendar = () => {
   const tasksCtx = useContext(TaskContext);

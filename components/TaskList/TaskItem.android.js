@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import { createOpenLink } from "react-native-open-maps";
 import TaskCompleteTracker from "./TaskCompleteTracker";
 import { Dropdown } from "react-native-element-dropdown";
-import Input from "../ManageTasks/Input";
+import Input from "../../constants/Input";
 import ButtonForm from "../ui/Buttons/ButtonForm";
 
 const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {

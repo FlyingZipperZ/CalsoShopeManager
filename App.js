@@ -30,8 +30,8 @@ import EditTaskScreen from "./screens/TaskStack/EditTaskScreen";
 // Calendar Stack
 import CalendarScreen from "./screens/CalendarStack/CalendarScreen";
 import CalendarOverviewScreen from "./screens/CalendarStack/CalendarOverviewScreen";
-
 import ClockIOScreen from "./screens/ClockIO/ClockIOScreen";
+import AddTimeOffScreen from "./screens/CalendarStack/AddTimeOffScreen";
 
 // Settings Stack
 import SettingsScreen from "./screens/SettingsStack/SettingsScreen";
@@ -42,6 +42,7 @@ import EditSales from "./components/settings/SalesList/EditSales";
 import LoginScreen from "./screens/Login/LoginScreen";
 import SignUpScreen from "./screens/Login/SignUpScreen";
 import IconButton from "./components/ui/IconButton";
+import TimeOffContextProvider from "./store/timeoff-context";
 
 // sets up all the navigation stacks for each different part of the app
 // main stack is Bottom Tabs
@@ -126,6 +127,20 @@ function TaskNavigator() {
   );
 }
 
+function addingTimeOff(tintColor) {
+  // const userCtx = useContext(UserContext);
+  // if (userCtx.eStatus === "Admin") {
+  return (
+    <IconButton
+      icon="add"
+      size={24}
+      color={tintColor}
+      onPress={"AddTimeOffScreen"}
+    />
+  );
+  // }
+}
+
 // CalenarNavigator under the Calendar bottom tab showing a calendar
 function CalendarNavigator() {
   return (
@@ -140,6 +155,7 @@ function CalendarNavigator() {
         component={CalendarScreen}
         options={{
           title: "Calendar",
+          headerRight: ({ tintColor }) => addingTimeOff(tintColor),
         }}
       />
       {/* Displays the overview of the different jobs baised on the day selected */}
@@ -150,6 +166,7 @@ function CalendarNavigator() {
           title: "Details",
         }}
       />
+      <Calendar.Screen name={"AddTimeOffScreen"} component={AddTimeOffScreen} />
     </Calendar.Navigator>
   );
 }
@@ -353,7 +370,9 @@ export default function App() {
       <AuthContextProvider>
         <UserContextProvider>
           <ClockContextProvider>
-            <Root />
+            <TimeOffContextProvider>
+              <Root />
+            </TimeOffContextProvider>
           </ClockContextProvider>
         </UserContextProvider>
       </AuthContextProvider>
