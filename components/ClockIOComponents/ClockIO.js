@@ -24,7 +24,7 @@ export default ClockIO;
 const styles = StyleSheet.create({
   mealItem: {
     marginVertical: 110,
-    marginHorizontal: 30,
+    marginHorizontal: 20,
     borderRadius: 50,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
     backgroundColor: "green",

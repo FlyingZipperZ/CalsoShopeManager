@@ -13,21 +13,21 @@ const ClockIOScreen = () => {
   const userCtx = useContext(UserContext);
   const clockCtx = useContext(ClockContext);
 
-  const clockData = {
-    user: userCtx.user,
-    clockInDate: currentDate(),
-    clockInTime: currentTime(),
-    clockOutDate: "",
-    clockOutTime: "",
-  };
-
   async function clockIn() {
     try {
       const storedClockId = await AsyncStorage.getItem("clockId");
 
+      const clockData = {
+        user: userCtx.user,
+        clockInDate: currentDate(),
+        clockInTime: currentTime(),
+        clockOutDate: "",
+        clockOutTime: "",
+      };
+
       if (storedClockId === null) {
         const id = await storeClock(clockData, authCtx.token);
-        clockCtx.clockInHandler(id);
+        clockCtx.addClock({ ...clockData, id: id });
       } else {
         Alert.alert("Already Clocked In", "You are already clocked In", [
           { text: "Okay" },
@@ -37,9 +37,12 @@ const ClockIOScreen = () => {
       console.log(error);
     }
   }
+  console.log(clockCtx.clockIn);
 
   async function clockOut() {
     try {
+      AsyncStorage.removeItem("clockId");
+
       const storedClockId = await AsyncStorage.getItem("clockId");
 
       if (storedClockId !== null) {
@@ -75,6 +78,8 @@ const ClockIOScreen = () => {
     </View>
   );
 
+  // console.log(clockCtx.clockIn);
+
   return (
     <>
       <View style={styles.buttons}>
@@ -91,11 +96,14 @@ const ClockIOScreen = () => {
       <View style={styles.excelContainer}>
         <View style={styles.excel}>
           <View style={styles.checkList}>
-            {/* <FlatList
-              data={getClockTime()}
-              keyExtractor={({ clock }) => clock.id}
-              renderItem={({ item }) => <ClockInItem clockInTime={item.user} />}
-            /> */}
+            {/* <Text>{clockCtx.clockIn}</Text> */}
+            <FlatList
+              data={clockCtx.clockIn}
+              renderItem={({ item }) => (
+                <ClockInItem clockInTime={item.clockIn} />
+              )}
+              keyExtractor={(item) => item.user}
+            />
           </View>
           <View style={styles.checkList}></View>
         </View>

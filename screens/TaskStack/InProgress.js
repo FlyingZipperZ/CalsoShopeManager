@@ -16,7 +16,6 @@ const InProgress = () => {
 
   const tasksCtx = useContext(TaskContext);
   const authCtx = useContext(AuthContext);
-  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     async function getTasks() {
