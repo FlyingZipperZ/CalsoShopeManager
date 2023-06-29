@@ -20,7 +20,8 @@ import { TimeOffContext } from "../../store/timeoff-context";
 
 const TimeOffForm = ({ onCancel }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [date, setDate] = useState(currentDate());
+  const [dateStart, setDateStart] = useState(currentDate());
+  const [dateEnd, setDateEnd] = useState(currentDate());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const authCtx = useContext(AuthContext);
@@ -53,14 +54,15 @@ const TimeOffForm = ({ onCancel }) => {
     }
   }
 
-  console.log(inputs.reason.value);
-  console.log(getDate(date));
+  // console.log(inputs.reason.value);
+  // console.log(getDate(dateStart));
 
   async function submitHandler() {
     const timeOffData = {
       user: inputs.user.value,
       reason: inputs.reason.value,
-      date: getDate(date),
+      dateStart: getDate(dateStart),
+      dateEnd: getDate(dateEnd),
     };
 
     setIsSubmitting(true);
@@ -93,7 +95,7 @@ const TimeOffForm = ({ onCancel }) => {
           <View style={styles.modalView}>
             <DatePicker
               mode="calendar"
-              onSelectedChange={(date) => setDate(date)}
+              onSelectedChange={(date) => setDateStart(date)}
             />
             <Pressable
               style={[styles.button, styles.buttonClose]}
@@ -103,7 +105,7 @@ const TimeOffForm = ({ onCancel }) => {
             </Pressable>
           </View>
         </Modal>
-        <Text style={styles.label}>Due Date</Text>
+        <Text style={styles.label}>Start Date</Text>
         <Pressable
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setModalVisible(true)}
@@ -112,11 +114,42 @@ const TimeOffForm = ({ onCancel }) => {
         </Pressable>
       </View>
       <TextInput
-        value={getDate(date)}
+        value={getDate(dateStart)}
         style={styles.input}
         editable={false}
-        onChangeText={inputChangedHandler.bind(this, "date")}
+        onChangeText={inputChangedHandler.bind(this, "dateStart")}
       />
+
+      <View style={styles.centeredView}>
+        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+          <View style={styles.modalView}>
+            <DatePicker
+              mode="calendar"
+              onSelectedChange={(date) => setDateEnd(date)}
+            />
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => [setModalVisible(!modalVisible)]}
+            >
+              <Text style={styles.textStyle}>Done</Text>
+            </Pressable>
+          </View>
+        </Modal>
+        <Text style={styles.label}>End Date</Text>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle}>Select Date</Text>
+        </Pressable>
+      </View>
+      <TextInput
+        value={getDate(dateEnd)}
+        style={styles.input}
+        editable={false}
+        onChangeText={inputChangedHandler.bind(this, "dateEnd")}
+      />
+
       <ButtonForm
         leftLabel="Cancel"
         rightLabel="Accept"
@@ -136,7 +169,7 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 22,
+    margin: 12,
   },
   modalView: {
     marginVertical: 200,
@@ -179,5 +212,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     fontSize: 18,
     minHeight: 35,
+  },
+  label: {
+    fontSize: 20,
+    marginBottom: 10,
   },
 });
