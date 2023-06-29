@@ -31,7 +31,8 @@ const TimeOffForm = ({ onCancel }) => {
   const [inputs, setInputs] = useState({
     user: { value: userCtx.user, isValid: true },
     reason: { value: "", isValid: true },
-    date: { value: "", isValid: true },
+    dateStart: { value: "", isValid: true },
+    dateEnd: { value: "", isValid: true },
   });
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
@@ -54,17 +55,14 @@ const TimeOffForm = ({ onCancel }) => {
     }
   }
 
-  // console.log(inputs.reason.value);
-  // console.log(getDate(dateStart));
+  const timeOffData = {
+    user: inputs.user.value,
+    reason: inputs.reason.value,
+    dateStart: inputs.dateStart.value,
+    dateEnd: inputs.dateEnd.value,
+  };
 
   async function submitHandler() {
-    const timeOffData = {
-      user: inputs.user.value,
-      reason: inputs.reason.value,
-      dateStart: getDate(dateStart),
-      dateEnd: getDate(dateEnd),
-    };
-
     setIsSubmitting(true);
     try {
       const id = await storeTimeOff(timeOffData, authCtx.token);
@@ -75,6 +73,9 @@ const TimeOffForm = ({ onCancel }) => {
       setIsSubmitting(false);
     }
   }
+
+  console.log(dateStart);
+  console.log(dateEnd);
 
   if (isSubmitting) {
     return <LoadingOverlay />;

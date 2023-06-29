@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import { View, StyleSheet, FlatList, Text, ScrollView } from "react-native";
 
 import { Calendar } from "react-native-calendars";
@@ -11,9 +11,14 @@ const _today = moment().format(_format);
 
 import { useNavigation } from "@react-navigation/native";
 import { TaskContext } from "../../store/task-context";
+import { fetchTimeOff } from "../../util/timeoff";
+import { TimeOffContext } from "../../store/timeoff-context";
+import { AuthContext } from "../../store/auth-context";
 
 const MyCalendar = () => {
   const tasksCtx = useContext(TaskContext);
+  const authCtx = useContext(AuthContext);
+  const timeOffCtx = useContext(TimeOffContext);
 
   const navigation = useNavigation();
 
@@ -21,6 +26,8 @@ const MyCalendar = () => {
 
   const [selected, setSelected] = useState(INITIAL_DATE);
   const [currentMonth, setCurrentMonth] = useState(INITIAL_DATE);
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState();
 
   function getDateFromSlash(date) {
     if (date !== "") {
@@ -39,10 +46,6 @@ const MyCalendar = () => {
       return year + "-" + month + "-" + day;
     }
   }
-
-  const selectedTask = tasksCtx.tasks.find(
-    (task) => task.dueDate === getDateFromSlash(selected)
-  );
 
   var nextDay = [];
 
@@ -67,6 +70,24 @@ const MyCalendar = () => {
     },
   });
 
+  useEffect(() => {
+    async function getTimeOff() {
+      setIsFetching(true);
+      try {
+        const timeOff = await fetchTimeOff(authCtx.token);
+        console.log(timeOff);
+        timeOffCtx.setTimeOff(timeOff);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsFetching(false);
+    }
+
+    getTimeOff();
+  }, []);
+
+  console.log(timeOffCtx.timeOff);
+
   const onDayPress = useCallback((day) => {
     setSelected(day.dateString);
   }, []);
@@ -87,8 +108,6 @@ const MyCalendar = () => {
       />
     );
   }
-
-  // console.log(selected);
 
   const displayedTasks = tasksCtx.tasks.filter((taskItem) => {
     return taskItem.dueDate.indexOf(getDateFromSlash(selected)) >= 0;

@@ -166,7 +166,11 @@ function CalendarNavigator() {
           title: "Details",
         }}
       />
-      <Calendar.Screen name={"AddTimeOffScreen"} component={AddTimeOffScreen} />
+      <Calendar.Screen
+        name={"AddTimeOffScreen"}
+        component={AddTimeOffScreen}
+        options={{ title: "Time Off Request" }}
+      />
     </Calendar.Navigator>
   );
 }
