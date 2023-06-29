@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 
 export const ClockContext = createContext({
   clockIn: [],
@@ -40,22 +40,39 @@ function clockReducer(state, action) {
 
 function ClockContextProvider({ children }) {
   // const [id, setId] = useState();
-  const [clockStateIn, dispatch] = useReducer(clockReducer, []);
+  const [clockStateIn, dispatchIn] = useReducer(clockReducer, []);
+  const [clockStateOut, dispatchOut] = useReducer(clockReducer, []);
 
-  function addClock(clockData) {
-    dispatch({ type: "ADD", payload: clockData });
+  function addClockIn(clockData) {
+    dispatchIn({ type: "ADD", payload: clockData });
   }
 
-  function setClock(clocks) {
-    dispatch({ type: "SET", payload: clocks });
+  function setClockIn(clocks) {
+    dispatchIn({ type: "SET", payload: clocks });
   }
 
-  function deleteClock(id) {
-    dispatch({ type: "DELETE", payload: id });
+  function deleteClockIn(id) {
+    dispatchIn({ type: "DELETE", payload: id });
   }
 
-  function updateClock(id, clockData) {
-    dispatch({ type: "UPDATE", payload: { id: id, data: clockData } });
+  function updateClockIn(id, clockData) {
+    dispatchIn({ type: "UPDATE", payload: { id: id, data: clockData } });
+  }
+
+  function addClockOut(clockData) {
+    dispatchOut({ type: "ADD", payload: clockData });
+  }
+
+  function setClockOut(clocks) {
+    dispatchOut({ type: "SET", payload: clocks });
+  }
+
+  function deleteClockOut(id) {
+    dispatchOut({ type: "DELETE", payload: id });
+  }
+
+  function updateClockOut(id, clockData) {
+    dispatchOut({ type: "UPDATE", payload: { id: id, data: clockData } });
   }
 
   function clockInHandler(clockId) {
@@ -69,11 +86,16 @@ function ClockContextProvider({ children }) {
   }
 
   const value = {
-    clockin: clockStateIn,
-    addClock: addClock,
-    setClock: setClock,
-    deleteClock: deleteClock,
-    updateClock: updateClock,
+    clockIn: clockStateIn,
+    clockOut: clockStateOut,
+    addClockIn: addClockIn,
+    setClockIn: setClockIn,
+    deleteClockIn: deleteClockIn,
+    updateClockIn: updateClockIn,
+    addClockOut: addClockOut,
+    setClockOut: setClockOut,
+    deleteClockOut: deleteClockOut,
+    updateClockOut: updateClockOut,
     clockInHandler: clockInHandler,
     clockOutHandler: clockOutHandler,
   };

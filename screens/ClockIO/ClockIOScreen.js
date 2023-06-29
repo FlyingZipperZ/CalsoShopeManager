@@ -16,6 +16,7 @@ const ClockIOScreen = () => {
   async function clockIn() {
     try {
       const storedClockId = await AsyncStorage.getItem("clockId");
+      // console.log(storedClockId);
 
       const clockData = {
         user: userCtx.user,
@@ -27,7 +28,9 @@ const ClockIOScreen = () => {
 
       if (storedClockId === null) {
         const id = await storeClock(clockData, authCtx.token);
-        clockCtx.addClock({ ...clockData, id: id });
+        clockCtx.addClockIn({ ...clockData, id: id });
+        clockCtx.addClockOut({ id: id });
+        clockCtx.clockInHandler(id);
       } else {
         Alert.alert("Already Clocked In", "You are already clocked In", [
           { text: "Okay" },
@@ -37,13 +40,13 @@ const ClockIOScreen = () => {
       console.log(error);
     }
   }
-  console.log(clockCtx.clockIn);
 
   async function clockOut() {
     try {
-      AsyncStorage.removeItem("clockId");
+      // AsyncStorage.removeItem("clockId");
 
       const storedClockId = await AsyncStorage.getItem("clockId");
+      // console.log(storedClockId);
 
       if (storedClockId !== null) {
         const clockIO = (await fetchClock(authCtx.token)).find(
@@ -58,6 +61,7 @@ const ClockIOScreen = () => {
           clockOutTime: currentTime(),
         };
         await updateClock(storedClockId, clockData, authCtx.token);
+        clockCtx.updateClockOut(storedClockId, clockData);
         clockCtx.clockOutHandler();
       } else {
         Alert.alert("Already Clocked Out", "You are already clocked Out", [
@@ -66,19 +70,27 @@ const ClockIOScreen = () => {
       }
     } catch (error) {
       console.log(error);
-      Alert.alert("Already Clocked Out", "You are already clocked Out", [
-        { text: "Okay" },
-      ]);
+      Alert.alert("Error", "Error", [{ text: "Okay" }]);
     }
   }
 
-  const ClockInItem = ({ clockInTime }) => (
-    <View style={styles.items}>
-      <Text style={styles.title}>{clockInTime}</Text>
-    </View>
-  );
+  const ClockItem = ({ clockTime }) => {
+    console.log(clockTime);
+    if (clockTime === undefined) {
+      return (
+        <View style={styles.items}>
+          <Text style={styles.title}> </Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.items}>
+        <Text style={styles.title}>{clockTime}</Text>
+      </View>
+    );
+  };
 
-  // console.log(clockCtx.clockIn);
+  console.log(clockCtx.clockOut);
 
   return (
     <>
@@ -87,25 +99,36 @@ const ClockIOScreen = () => {
         <ClockIO onPress={clockOut}>Clock Out</ClockIO>
       </View>
       <View style={styles.date}>
-        <Text>{currentDate()}</Text>
+        <Text style={styles.title}>{currentDate()}</Text>
       </View>
-      <View style={styles.buttons}>
-        <Text>Clocked In </Text>
-        <Text> Clocked Out</Text>
+      <View style={styles.text}>
+        <Text style={styles.title}>Clocked In </Text>
+        <Text style={styles.title}> Clocked Out</Text>
       </View>
       <View style={styles.excelContainer}>
         <View style={styles.excel}>
           <View style={styles.checkList}>
-            {/* <Text>{clockCtx.clockIn}</Text> */}
             <FlatList
               data={clockCtx.clockIn}
               renderItem={({ item }) => (
-                <ClockInItem clockInTime={item.clockIn} />
+                <ClockItem clockTime={item.clockInTime} />
               )}
-              keyExtractor={(item) => item.user}
+              keyExtractor={(item) => item.id}
+              inverted={true}
+              scrollEnabled={false}
             />
           </View>
-          <View style={styles.checkList}></View>
+          <View style={styles.checkList}>
+            <FlatList
+              data={clockCtx.clockOut}
+              renderItem={({ item }) => (
+                <ClockItem clockTime={item.clockOutTime} />
+              )}
+              keyExtractor={(item) => item.id}
+              inverted={true}
+              scrollEnabled={false}
+            />
+          </View>
         </View>
       </View>
     </>
@@ -119,6 +142,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
+  text: {
+    justifyContent: "center",
+    flexDirection: "row",
+  },
   date: {
     alignItems: "center",
   },
@@ -129,18 +156,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   checkList: {
-    paddingHorizontal: 50,
+    // paddingHorizontal: 50,
     marginTop: 10,
     backgroundColor: "#dfdfdf",
-    borderWidth: 1,
+    // borderWidth: 1,
   },
   items: {
-    backgroundColor: "#f9c2ff",
+    // backgroundColor: "#f9c2ff",
     padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    borderWidth: 1,
+    // marginVertical: 8,
+    // marginHorizontal: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 25,
   },
 });
