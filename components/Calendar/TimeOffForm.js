@@ -19,9 +19,10 @@ import { AuthContext } from "../../store/auth-context";
 import { TimeOffContext } from "../../store/timeoff-context";
 
 const TimeOffForm = ({ onCancel }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [dateStart, setDateStart] = useState(currentDate());
-  const [dateEnd, setDateEnd] = useState(currentDate());
+  const [modalVisibleStart, setModalVisibleStart] = useState(false);
+  const [modalVisibleEnd, setModalVisibleEnd] = useState(false);
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const authCtx = useContext(AuthContext);
@@ -31,8 +32,8 @@ const TimeOffForm = ({ onCancel }) => {
   const [inputs, setInputs] = useState({
     user: { value: userCtx.user, isValid: true },
     reason: { value: "", isValid: true },
-    dateStart: { value: "", isValid: true },
-    dateEnd: { value: "", isValid: true },
+    start: { value: "", isValid: true },
+    end: { value: "", isValid: true },
   });
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
@@ -55,14 +56,13 @@ const TimeOffForm = ({ onCancel }) => {
     }
   }
 
-  const timeOffData = {
-    user: inputs.user.value,
-    reason: inputs.reason.value,
-    dateStart: inputs.dateStart.value,
-    dateEnd: inputs.dateEnd.value,
-  };
-
   async function submitHandler() {
+    const timeOffData = {
+      user: inputs.user.value,
+      reason: inputs.reason.value,
+      start: start,
+      end: end,
+    };
     setIsSubmitting(true);
     try {
       const id = await storeTimeOff(timeOffData, authCtx.token);
@@ -74,8 +74,8 @@ const TimeOffForm = ({ onCancel }) => {
     }
   }
 
-  console.log(dateStart);
-  console.log(dateEnd);
+  console.log(start);
+  console.log(end);
 
   if (isSubmitting) {
     return <LoadingOverlay />;
@@ -92,15 +92,19 @@ const TimeOffForm = ({ onCancel }) => {
         }}
       />
       <View style={styles.centeredView}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleStart}
+        >
           <View style={styles.modalView}>
             <DatePicker
               mode="calendar"
-              onSelectedChange={(date) => setDateStart(date)}
+              onSelectedChange={(date) => setStart(date)}
             />
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => [setModalVisible(!modalVisible)]}
+              onPress={() => [setModalVisibleStart(!modalVisibleStart)]}
             >
               <Text style={styles.textStyle}>Done</Text>
             </Pressable>
@@ -109,28 +113,27 @@ const TimeOffForm = ({ onCancel }) => {
         <Text style={styles.label}>Start Date</Text>
         <Pressable
           style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
+          onPress={() => setModalVisibleStart(true)}
         >
           <Text style={styles.textStyle}>Select Date</Text>
         </Pressable>
       </View>
-      <TextInput
-        value={getDate(dateStart)}
-        style={styles.input}
-        editable={false}
-        onChangeText={inputChangedHandler.bind(this, "dateStart")}
-      />
+      <TextInput value={getDate(start)} style={styles.input} editable={false} />
 
       <View style={styles.centeredView}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleEnd}
+        >
           <View style={styles.modalView}>
             <DatePicker
               mode="calendar"
-              onSelectedChange={(date) => setDateEnd(date)}
+              onSelectedChange={(date) => setEnd(date)}
             />
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => [setModalVisible(!modalVisible)]}
+              onPress={() => [setModalVisibleEnd(!modalVisibleEnd)]}
             >
               <Text style={styles.textStyle}>Done</Text>
             </Pressable>
@@ -139,17 +142,12 @@ const TimeOffForm = ({ onCancel }) => {
         <Text style={styles.label}>End Date</Text>
         <Pressable
           style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
+          onPress={() => setModalVisibleEnd(true)}
         >
           <Text style={styles.textStyle}>Select Date</Text>
         </Pressable>
       </View>
-      <TextInput
-        value={getDate(dateEnd)}
-        style={styles.input}
-        editable={false}
-        onChangeText={inputChangedHandler.bind(this, "dateEnd")}
-      />
+      <TextInput value={getDate(end)} style={styles.input} editable={false} />
 
       <ButtonForm
         leftLabel="Cancel"

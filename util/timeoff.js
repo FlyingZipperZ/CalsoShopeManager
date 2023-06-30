@@ -20,8 +20,8 @@ export async function fetchTimeOff(token) {
           id: key,
           user: response.data[key].user,
           reason: response.data[key].reason,
-          dateStart: response.data[key].dateStart,
-          dateEnd: response.data[key].dateEnd,
+          start: response.data[key].start,
+          end: response.data[key].end,
         };
         timeOff.push(timeOffObj);
       }

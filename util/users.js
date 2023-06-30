@@ -13,17 +13,20 @@ export async function storeUserName(userData, token) {
 export async function fetchUserName(token) {
   const users = [];
 
-  await axios.get(BACKEND_URL + "user.json?auth=" + token).then((response) => {
-    for (const key in response.data) {
-      const userObj = {
-        id: key,
-        name: response.data[key].name,
-        email: response.data[key].email,
-        eStatus: response.data[key].eStatus,
-      };
-      users.push(userObj);
-    }
-  });
+  await axios.get(BACKEND_URL + "user.json?auth=" + token).then(
+    (response) => {
+      for (const key in response.data) {
+        const userObj = {
+          id: key,
+          name: response.data[key].name,
+          email: response.data[key].email,
+          eStatus: response.data[key].eStatus,
+        };
+        users.push(userObj);
+      }
+    },
+    [token]
+  );
 
   return users;
 }

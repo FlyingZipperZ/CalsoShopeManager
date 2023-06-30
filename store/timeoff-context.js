@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const TimeOffContext = createContext({
   timeOff: [],
-  addTimeOff: ({ user, reason, date }) => {},
+  addTimeOff: ({ user, reason, start, end }) => {},
   setTimeOff: (timeOff) => {},
   deleteTimeOff: () => {},
   updateTimeOff: () => {},

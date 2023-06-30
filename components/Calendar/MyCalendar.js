@@ -47,7 +47,35 @@ const MyCalendar = () => {
     }
   }
 
-  var nextDay = [];
+  let nextDay = [];
+
+  useEffect(() => {
+    async function getTimeOff() {
+      setIsFetching(true);
+      try {
+        const timeOff = await fetchTimeOff(authCtx.token);
+        // console.log(timeOff);
+        timeOffCtx.setTimeOff(timeOff);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsFetching(false);
+    }
+
+    getTimeOff();
+  }, []);
+
+  for (const element of timeOffCtx.timeOff) {
+    console.log(
+      element.user +
+        " " +
+        element.reason +
+        " " +
+        element.start +
+        " " +
+        element.end
+    );
+  }
 
   for (const element of tasksCtx.tasks) {
     nextDay.push(getDateToDash(element.dueDate));
@@ -69,24 +97,6 @@ const MyCalendar = () => {
       selectedTextColor: "red",
     },
   });
-
-  useEffect(() => {
-    async function getTimeOff() {
-      setIsFetching(true);
-      try {
-        const timeOff = await fetchTimeOff(authCtx.token);
-        console.log(timeOff);
-        timeOffCtx.setTimeOff(timeOff);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsFetching(false);
-    }
-
-    getTimeOff();
-  }, []);
-
-  console.log(timeOffCtx.timeOff);
 
   const onDayPress = useCallback((day) => {
     setSelected(day.dateString);
