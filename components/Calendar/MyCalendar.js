@@ -2,7 +2,6 @@ import { useState, useCallback, useContext, useEffect } from "react";
 import { View, StyleSheet, FlatList, Text, ScrollView } from "react-native";
 
 import { Calendar } from "react-native-calendars";
-import { TASKS } from "../../data/testData";
 import moment from "moment";
 import TaskTile from "../TaskTile";
 
@@ -47,14 +46,11 @@ const MyCalendar = () => {
     }
   }
 
-  let nextDay = [];
-
   useEffect(() => {
     async function getTimeOff() {
       setIsFetching(true);
       try {
         const timeOff = await fetchTimeOff(authCtx.token);
-        // console.log(timeOff);
         timeOffCtx.setTimeOff(timeOff);
       } catch (error) {
         console.log(error);
@@ -65,23 +61,44 @@ const MyCalendar = () => {
     getTimeOff();
   }, []);
 
-  for (const element of timeOffCtx.timeOff) {
-    console.log(
-      element.user +
-        " " +
-        element.reason +
-        " " +
-        element.start +
-        " " +
-        element.end
-    );
+  function getDateTimeOff(date) {
+    if (date !== "") {
+      const year = [date.split("/")[0]];
+      const month = [date.split("/")[1]];
+      const day = [date.split("/")[2]];
+      return year + "-" + month + "-" + day;
+    }
   }
+
+  let nextDayTimeOff = [];
+
+  for (const element of timeOffCtx.timeOff) {
+    const start = {
+      [getDateTimeOff(element.start)]: {
+        startingDay: true,
+        color: "lightblue",
+      },
+    };
+    const end = {
+      [getDateTimeOff(element.end)]: { endingDay: true, color: "lightblue" },
+    };
+
+    nextDayTimeOff.push(start);
+    nextDayTimeOff.push(end);
+  }
+
+  let newDaysObject = {};
+
+  nextDayTimeOff.forEach((day) => {
+    newDaysObject[day] = day;
+    console.log(day);
+  });
+
+  let nextDay = [];
 
   for (const element of tasksCtx.tasks) {
     nextDay.push(getDateToDash(element.dueDate));
   }
-
-  let newDaysObject = {};
 
   nextDay.forEach((day) => {
     newDaysObject[day] = {
@@ -132,6 +149,7 @@ const MyCalendar = () => {
           onDayPress={onDayPress}
           markedDates={newDaysObject}
           headerStyle={null}
+          markingType={"custom"}
         />
       </View>
       <View style={styles.taskContainer}>
