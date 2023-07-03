@@ -37,6 +37,15 @@ const MyCalendar = () => {
     }
   }
 
+  function getDateFromSlashToMill(date) {
+    if (date !== "") {
+      const year = [date.split("-")[0]];
+      const month = [date.split("-")[1]];
+      const day = [date.split("-")[2]];
+      return year + "/" + month + "/" + day;
+    }
+  }
+
   function getDateToDash(date) {
     if (date !== "") {
       const month = [date.split("/")[0]];
@@ -70,28 +79,50 @@ const MyCalendar = () => {
     }
   }
 
-  let nextDayTimeOff = [];
+  let nextDayTimeOffStart = [];
+  let nextDayTimeOffEnd = [];
+  let dayInbetween = [];
+  let newDaysObject = {};
+  let oneDay = 86400000;
 
   for (const element of timeOffCtx.timeOff) {
-    const start = {
-      [getDateTimeOff(element.start)]: {
-        startingDay: true,
-        color: "lightblue",
-      },
-    };
-    const end = {
-      [getDateTimeOff(element.end)]: { endingDay: true, color: "lightblue" },
-    };
+    const start = [getDateTimeOff(element.start)];
+    const end = [getDateTimeOff(element.end)];
 
-    nextDayTimeOff.push(start);
-    nextDayTimeOff.push(end);
+    nextDayTimeOffStart.push(start);
+
+    let startDate = new Date(start + "T24:00:00+0000");
+    let startResult = startDate.getTime();
+
+    let endDate1 = new Date(end + "T00:00:00+0000");
+    let endResult = endDate1.getTime();
+
+    for (let i = endResult; i >= startResult; i = i - oneDay) {
+      const myDate = new Date(i);
+      dayInbetween.push(myDate.toLocaleDateString("sv"));
+    }
+    nextDayTimeOffEnd.push(end);
   }
 
-  let newDaysObject = {};
+  nextDayTimeOffStart.forEach((day) => {
+    newDaysObject[day] = {
+      marked: true,
+      dotColor: "red",
+    };
+  });
 
-  nextDayTimeOff.forEach((day) => {
-    newDaysObject[day] = day;
-    console.log(day);
+  dayInbetween.forEach((day) => {
+    newDaysObject[day] = {
+      marked: true,
+      dotColor: "red",
+    };
+  });
+
+  nextDayTimeOffEnd.forEach((day) => {
+    newDaysObject[day] = {
+      marked: true,
+      dotColor: "red",
+    };
   });
 
   let nextDay = [];
@@ -102,7 +133,7 @@ const MyCalendar = () => {
 
   nextDay.forEach((day) => {
     newDaysObject[day] = {
-      marked: true,
+      selected: true,
     };
   });
 
@@ -111,7 +142,7 @@ const MyCalendar = () => {
       selected: true,
       disableTouchEvent: true,
       selectedColor: "orange",
-      selectedTextColor: "red",
+      selectedTextColor: "black",
     },
   });
 
@@ -149,7 +180,7 @@ const MyCalendar = () => {
           onDayPress={onDayPress}
           markedDates={newDaysObject}
           headerStyle={null}
-          markingType={"custom"}
+          markingType={""}
         />
       </View>
       <View style={styles.taskContainer}>
