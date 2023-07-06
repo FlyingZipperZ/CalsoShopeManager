@@ -1,23 +1,54 @@
 import { Alert, StyleSheet, View, Text, FlatList } from "react-native";
 import ClockIO from "../../components/ClockIOComponents/ClockIO";
-import { currentDate, currentTime, getNow } from "../../components/Date";
+import { currentDate, currentTime } from "../../components/Date";
 import { storeClock, fetchClock, updateClock } from "../../util/clock";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../store/auth-context";
 import { ClockContext } from "../../store/clock-context";
 import { UserContext } from "../../store/user-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
 
 const ClockIOScreen = () => {
+  const [isFetching, setIsFetching] = useState(true);
+
   const authCtx = useContext(AuthContext);
   const userCtx = useContext(UserContext);
   const clockCtx = useContext(ClockContext);
 
+  useEffect(() => {
+    async function getTime() {
+      setIsFetching(true);
+      try {
+        const time = await fetchClock(authCtx.token);
+        let clock = [];
+        for (const element of time) {
+          console.log(element);
+          if (
+            userCtx.user === element.user &&
+            currentDate() === element.clockInDate
+          ) {
+            clock.push(element);
+          }
+        }
+        clockCtx.setClockIn(clock);
+        clockCtx.setClockOut(clock);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsFetching(false);
+    }
+
+    getTime();
+  }, []);
+
+  if (isFetching) {
+    return <LoadingOverlay />;
+  }
+
   async function clockIn() {
     try {
       const storedClockId = await AsyncStorage.getItem("clockId");
-      // console.log(storedClockId);
-
       const clockData = {
         user: userCtx.user,
         clockInDate: currentDate(),
@@ -42,11 +73,9 @@ const ClockIOScreen = () => {
   }
 
   async function clockOut() {
+    // clockCtx.clockOutHandler();
     try {
-      // AsyncStorage.removeItem("clockId");
-
       const storedClockId = await AsyncStorage.getItem("clockId");
-      // console.log(storedClockId);
 
       if (storedClockId !== null) {
         const clockIO = (await fetchClock(authCtx.token)).find(
@@ -75,7 +104,7 @@ const ClockIOScreen = () => {
   }
 
   const ClockItem = ({ clockTime }) => {
-    console.log(clockTime);
+    // console.log(clockTime);
     if (clockTime === undefined) {
       return (
         <View style={styles.items}>
@@ -89,8 +118,6 @@ const ClockIOScreen = () => {
       </View>
     );
   };
-
-  console.log(clockCtx.clockOut);
 
   return (
     <>

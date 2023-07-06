@@ -7,6 +7,7 @@ import ButtonForm from "../ui/Buttons/ButtonForm";
 import { SalesContext } from "../../store/sales-context";
 import { updateSales } from "../../util/sales";
 import { AuthContext } from "../../store/auth-context";
+import { UserContext } from "../../store/user-context";
 
 const SalesForm = ({ defaultValues }) => {
   const navigation = useNavigation();
@@ -37,6 +38,7 @@ const SalesForm = ({ defaultValues }) => {
 
   const salesCtx = useContext(SalesContext);
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
 
   async function confirmHandler() {
     const salesData = {
@@ -85,12 +87,14 @@ const SalesForm = ({ defaultValues }) => {
           value: inputs.number.value,
         }}
       />
+      {/* {userCtx.estatus === "Admin" && ( */}
       <ButtonForm
         leftLabel="Cancel"
         rightLabel="Update"
         cancelHandler={() => navigation.goBack()}
         submitHandler={confirmHandler}
       />
+      {/* )} */}
     </View>
   );
 };

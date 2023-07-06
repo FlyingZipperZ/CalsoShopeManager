@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
-import { useState } from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
+import { useContext, useState } from "react";
 
 import Input from "../../constants/Input";
 import ButtonForm from "../../components/ui/Buttons/ButtonForm";
 import { storeSales } from "../../util/sales";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
+import { AuthContext } from "../../store/auth-context";
 
 const AddSalesPeople = ({ navigation, salesCtx }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState();
+
+  const authCtx = useContext(AuthContext);
 
   function cancelHandler() {
     navigation.goBack();
@@ -35,40 +38,51 @@ const AddSalesPeople = ({ navigation, salesCtx }) => {
   }
 
   async function submitHandler() {
-    const saleData = {
-      name: inputs.name.value,
-      number:
-        "(" +
-        inputs.number.value.slice(0, 3) +
-        ") " +
-        inputs.number.value.slice(3, 6) +
-        "-" +
-        inputs.number.value.slice(6, 10),
-    };
+    // console.log(inputs.number.value.length);
+    if (inputs.number.value.length === 10) {
+      const saleData = {
+        name: inputs.name.value,
+        number:
+          "(" +
+          inputs.number.value.slice(0, 3) +
+          ") " +
+          inputs.number.value.slice(3, 6) +
+          "-" +
+          inputs.number.value.slice(6, 10),
+      };
 
-    const nameIsValid = saleData.name.trim().length > 0;
-    const numberIsValid = saleData.number.trim().length > 0;
+      const nameIsValid = saleData.name.trim().length > 0;
+      const numberIsValid = saleData.number.trim().length > 0;
 
-    if (!nameIsValid || !numberIsValid) {
-      setInputs((curInputs) => {
-        return {
-          name: { value: curInputs.name.value, isValid: nameIsValid },
-          number: { value: curInputs.number.value, isValid: numberIsValid },
-        };
-      });
-      return;
-    }
+      console.log(numberIsValid);
 
-    setIsSubmitting(true);
-    try {
-      const id = await storeSales(saleData);
-      salesCtx.addSales({ ...saleData, id: id });
+      if (!nameIsValid || !numberIsValid) {
+        setInputs((curInputs) => {
+          return {
+            name: { value: curInputs.name.value, isValid: nameIsValid },
+            number: { value: curInputs.number.value, isValid: numberIsValid },
+          };
+        });
+        return;
+      }
+
+      setIsSubmitting(true);
+      try {
+        const id = await storeSales(saleData, authCtx.token);
+        salesCtx.addSales({ ...saleData, id: id });
+        navigation.goBack();
+      } catch (error) {
+        setError("Could not save Data try again later");
+        setIsSubmitting(false);
+      }
       navigation.goBack();
-    } catch (error) {
-      setError("Could not save Data try again later");
-      setIsSubmitting(false);
+    } else {
+      Alert.alert(
+        "Number must be a 10 digit phone number",
+        "Please check your number and make sure it has 10 digits",
+        [{ text: "Okay" }]
+      );
     }
-    navigation.goBack();
   }
 
   if (isSubmitting) {

@@ -31,7 +31,6 @@ const SettingsScreen = () => {
   const logoutHandler = () => {
     userCtx.loggedOut();
     authCtx.logout();
-    // console.log("logout");
   };
 
   function logOutHandler() {
@@ -50,7 +49,7 @@ const SettingsScreen = () => {
   return (
     <View>
       <SettingButtons title="Sales Person" onPress={addHandler} />
-      <SettingButtons title="idk something crazy" onPress={buttonHandler} />
+      {/* <SettingButtons title="idk something crazy" onPress={buttonHandler} /> */}
       <LogoutButton title="Logout" onPress={logOutHandler} />
     </View>
   );

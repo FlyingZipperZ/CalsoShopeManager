@@ -4,15 +4,19 @@ import { useNavigation } from "@react-navigation/native";
 
 import { fetchSales } from "../../../util/sales";
 import { SalesContext } from "../../../store/sales-context";
+import { UserContext } from "../../../store/user-context";
 
 const SalesList = ({ sales }) => {
   const navigation = useNavigation();
 
+  const userCtx = useContext(UserContext);
+
   function renderSalesPerson(itemData) {
     function onPressHandler() {
-      navigation.navigate("EditSales", {
-        salesId: itemData.item.id,
-      });
+      if (userCtx.eStatus === "Admin")
+        navigation.navigate("EditSales", {
+          salesId: itemData.item.id,
+        });
     }
 
     return (

@@ -39,7 +39,6 @@ function clockReducer(state, action) {
 }
 
 function ClockContextProvider({ children }) {
-  // const [id, setId] = useState();
   const [clockStateIn, dispatchIn] = useReducer(clockReducer, []);
   const [clockStateOut, dispatchOut] = useReducer(clockReducer, []);
 

@@ -96,18 +96,21 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
     });
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      {
-        headerRight: ({ tintColor }) => (
-          <Pressable onPress={onEdit}>
-            <Text style={{ color: tintColor, fontSize: 16 }}>Edit</Text>
-          </Pressable>
-        ),
-      },
-      [navigation]
-    );
-  });
+  const userCtx = useContext(UserContext);
+
+  if (userCtx.eStatus === "Admin")
+    useLayoutEffect(() => {
+      navigation.setOptions(
+        {
+          headerRight: ({ tintColor }) => (
+            <Pressable onPress={onEdit}>
+              <Text style={{ color: tintColor, fontSize: 16 }}>Edit</Text>
+            </Pressable>
+          ),
+        },
+        [navigation]
+      );
+    });
 
   var day = new Date().getDate(); //To get the Current Date
   var month = new Date().getMonth() + 1; //To get the Current Month
@@ -118,8 +121,6 @@ const TaskItem = ({ onUpdateHandler, cancelHandler, defaultValues }) => {
 
   var dateCurrent =
     month + "/" + day + "/" + year + " " + hours + ":" + min + ":" + sec;
-
-  const userCtx = useContext(UserContext);
 
   async function submitHandler() {
     const taskData = {

@@ -1,8 +1,11 @@
 import axios from "axios";
 import { BACKEND_URL } from "./backend";
 
-export async function storeSales(salesData) {
-  const response = await axios.post(BACKEND_URL + "sales.json", salesData);
+export async function storeSales(salesData, token) {
+  const response = await axios.post(
+    BACKEND_URL + "sales.json?auth=" + token,
+    salesData
+  );
   const id = response.data.name;
   return id;
 }
