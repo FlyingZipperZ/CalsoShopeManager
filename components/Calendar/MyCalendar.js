@@ -13,10 +13,12 @@ import { TaskContext } from "../../store/task-context";
 import { fetchTimeOff } from "../../util/timeoff";
 import { TimeOffContext } from "../../store/timeoff-context";
 import { AuthContext } from "../../store/auth-context";
+import { UserContext } from "../../store/user-context";
 
 const MyCalendar = () => {
   const tasksCtx = useContext(TaskContext);
   const authCtx = useContext(AuthContext);
+  const userCtx = useContext(UserContext);
   const timeOffCtx = useContext(TimeOffContext);
 
   const navigation = useNavigation();
@@ -37,15 +39,6 @@ const MyCalendar = () => {
     }
   }
 
-  function getDateFromSlashToMill(date) {
-    if (date !== "") {
-      const year = [date.split("-")[0]];
-      const month = [date.split("-")[1]];
-      const day = [date.split("-")[2]];
-      return year + "/" + month + "/" + day;
-    }
-  }
-
   function getDateToDash(date) {
     if (date !== "") {
       const month = [date.split("/")[0]];
@@ -61,6 +54,7 @@ const MyCalendar = () => {
       try {
         const timeOff = await fetchTimeOff(authCtx.token);
         timeOffCtx.setTimeOff(timeOff);
+        // console.log(timeOff);
       } catch (error) {
         console.log(error);
       }
@@ -79,49 +73,51 @@ const MyCalendar = () => {
     }
   }
 
-  let nextDayTimeOffStart = [];
-  let nextDayTimeOffEnd = [];
-  let dayInbetween = [];
+  let daysOff = [];
   let newDaysObject = {};
   let oneDay = 86400000;
 
   for (const element of timeOffCtx.timeOff) {
     const start = [getDateTimeOff(element.start)];
     const end = [getDateTimeOff(element.end)];
-
-    nextDayTimeOffStart.push(start);
+    const user = [element.user];
+    const reason = [element.reason];
 
     let startDate = new Date(start + "T24:00:00+0000");
     let startResult = startDate.getTime();
 
+    // console.log(start);
+
     let endDate1 = new Date(end + "T00:00:00+0000");
     let endResult = endDate1.getTime();
 
+    // daysOff.push(start);
+
     for (let i = endResult; i >= startResult; i = i - oneDay) {
-      const myDate = new Date(i);
-      dayInbetween.push(myDate.toLocaleDateString("sv"));
+      const middle = new Date(i);
+      // const timeOffData = {
+      //   user: user,
+      //   reason: reason,
+      //   start: middle,
+      //   end: middle,
+      // };
+
+      daysOff.push(middle.toLocaleDateString("sv"));
+      // timeOffCtx.addTimeOff({ ...timeOffData });
     }
-    nextDayTimeOffEnd.push(end);
+    daysOff.push(end);
   }
 
-  nextDayTimeOffStart.forEach((day) => {
-    newDaysObject[day] = {
-      marked: true,
-      dotColor: "red",
-    };
-  });
+  // console.log(daysOffStart);
+  // console.log(daysOff);
+  // console.log(daysOffEnd);
 
-  dayInbetween.forEach((day) => {
-    newDaysObject[day] = {
-      marked: true,
-      dotColor: "red",
-    };
-  });
+  const dayOffColor = "#ff0000";
 
-  nextDayTimeOffEnd.forEach((day) => {
+  daysOff.forEach((day) => {
     newDaysObject[day] = {
       marked: true,
-      dotColor: "red",
+      dotColor: dayOffColor,
     };
   });
 
@@ -133,16 +129,19 @@ const MyCalendar = () => {
 
   nextDay.forEach((day) => {
     newDaysObject[day] = {
-      selected: true,
+      startingDay: true,
+      endingDay: true,
+      color: "#56c7ff",
+      textColor: "black",
     };
   });
 
   Object.assign(newDaysObject, {
     [selected]: {
-      selected: true,
-      disableTouchEvent: true,
-      selectedColor: "orange",
-      selectedTextColor: "black",
+      startingDay: true,
+      endingDay: true,
+      color: "orange",
+      textColor: "black",
     },
   });
 
@@ -171,6 +170,45 @@ const MyCalendar = () => {
     return taskItem.dueDate.indexOf(getDateFromSlash(selected)) >= 0;
   });
 
+  function renderTimeOff(itemData) {
+    return (
+      <View style={styles.timeOff}>
+        <Text style={styles.timeOffText}>Time Off: {itemData.item.user}</Text>
+      </View>
+    );
+  }
+
+  function whatTheFuck(date) {
+    if (date !== "") {
+      const year = [date.split("/")[0]];
+      const month = [date.split("/")[1]];
+      const day = [date.split("/")[2]];
+      return month + "/" + day + "/" + year;
+    }
+  }
+
+  const displayedTimeOff = timeOffCtx.timeOff.filter((timeOffItem) => {
+    let startDate = new Date(
+      getDateTimeOff(timeOffItem.start) + "T24:00:00+0000"
+    );
+    let startResult = startDate.getTime();
+
+    let endDate = new Date(getDateTimeOff(timeOffItem.end) + "T00:00:00+0000");
+    let endResult = endDate.getTime();
+
+    let selectedDate = new Date(selected + "T24:00:00+0000");
+    let selectedResult = selectedDate.getTime();
+
+    if (startResult <= selectedResult && selectedResult <= endResult) {
+      return timeOffItem.user;
+    }
+
+    return (
+      whatTheFuck(timeOffItem.start).indexOf(getDateFromSlash(selected)) >= 0 ||
+      whatTheFuck(timeOffItem.end).indexOf(getDateFromSlash(selected)) >= 0
+    );
+  });
+
   return (
     <View style={styles.container}>
       <View>
@@ -178,9 +216,16 @@ const MyCalendar = () => {
           current={_today}
           style={styles.calendar}
           onDayPress={onDayPress}
-          markedDates={newDaysObject}
           headerStyle={null}
-          markingType={""}
+          markingType={"period"}
+          markedDates={newDaysObject}
+        />
+      </View>
+      <View>
+        <FlatList
+          data={displayedTimeOff}
+          keyExtractor={(item) => item.id}
+          renderItem={renderTimeOff}
         />
       </View>
       <View style={styles.taskContainer}>
@@ -206,5 +251,12 @@ const styles = StyleSheet.create({
   },
   taskContainer: {
     flex: 1,
+  },
+  timeOff: {
+    alignItems: "center",
+    paddingTop: 12,
+  },
+  timeOffText: {
+    fontSize: 16,
   },
 });
