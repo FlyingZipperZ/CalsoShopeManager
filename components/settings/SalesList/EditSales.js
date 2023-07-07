@@ -24,9 +24,9 @@ const EditSales = ({ route }) => {
       setError("Cannot delete try again later!");
     }
   }
-
   return (
-    <View style={styles.settings}>
+    <View>
+      <Text>EditSales</Text>
       <SalesForm defaultValues={selectedSales} />
       <View style={styles.trash}>
         <DeleteTaskIcon

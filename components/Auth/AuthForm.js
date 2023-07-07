@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Input from "./Input";
 import Button from "../ui/Buttons/Button";
@@ -36,20 +36,12 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   }
 
   function submitHandler() {
-    if (enteredPassword.length >= 7) {
-      onSubmit({
-        userName: enteredUser,
-        email: enteredEmail,
-        password: enteredPassword,
-        confirmPassword: enteredConfirmPassword,
-      });
-    } else {
-      Alert.alert(
-        "Password Length",
-        "Please use a password that is 7 characters or longer",
-        { text: "Okay" }
-      );
-    }
+    onSubmit({
+      userName: enteredUser,
+      email: enteredEmail,
+      password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
+    });
   }
 
   return (

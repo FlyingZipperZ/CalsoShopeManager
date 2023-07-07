@@ -93,7 +93,7 @@ function TaskNavigator() {
         component={MyTabs}
         options={{
           title: "Task Screen",
-          headerLeft: ({ tintColor }) => adding(tintColor),
+          headerRight: ({ tintColor }) => adding(tintColor),
         }}
       />
       {/* TaskOverViewScreen shows the details of the job in question after tapping

@@ -9,32 +9,28 @@ import ErrorOverlay from "../../components/ui/ErrorOverlay";
 import Button from "../../components/ui/Buttons/Button";
 import IconButton from "../../components/ui/IconButton";
 import { AuthContext } from "../../store/auth-context";
-import { UserContext } from "../../store/user-context";
 
 const SalesPeople = ({ navigation }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
 
   const salesCtx = useContext(SalesContext);
-  const userCtx = useContext(UserContext);
 
-  if (userCtx.eStatus === "Admin") {
-    useLayoutEffect(() => {
-      navigation.setOptions(
-        {
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon="add"
-              size={24}
-              color={tintColor}
-              onPress={"AddSalesPeople"}
-            />
-          ),
-        },
-        [navigation]
-      );
-    });
-  }
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      {
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            icon="add"
+            size={24}
+            color={tintColor}
+            onPress={"AddSalesPeople"}
+          />
+        ),
+      },
+      [navigation]
+    );
+  });
 
   const authCtx = useContext(AuthContext);
 

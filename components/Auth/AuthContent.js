@@ -38,6 +38,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
     const userNameIsValid = userName.length > 6;
     const emailIsValid = email.includes("@");
     const passwordIsValid = password.length > 6;
+    // const emailsAreEqual = email === confirmEmail;
     const passwordsAreEqual = password === confirmPassword;
 
     if (!emailIsValid || !passwordIsValid || (!isLogin && !passwordsAreEqual)) {
@@ -51,7 +52,6 @@ function AuthContent({ isLogin, onAuthenticate }) {
       });
       return;
     }
-
     onAuthenticate({ userName, email, password });
   }
 
